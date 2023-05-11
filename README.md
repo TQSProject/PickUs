@@ -10,7 +10,6 @@ Registered ACPs (Associated Collection Point) have their own dashboard to manage
 
 Separately, we also have a web store where end users can buy products and have them delivered to an ACP.
 
-
 # Team
 
 Alexandre Gazur (102751) - PickUs backend

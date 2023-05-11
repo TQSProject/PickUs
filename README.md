@@ -13,11 +13,11 @@ Separately, we also have a web store where end users can buy products and have t
 # Team
 
 Alexandre Gazur (102751) - PickUs backend
-Ricardo Pinto (103078) - PickUs backend
-Emanuel (102565) - PickUs frontend
+Ricardo Pinto (103078) - PickUs backend, QA
+Emanuel (102565) - PickUs frontend (admin dashboard and ACP dashboard)
 Daniel Ferreira (102885) - Web eStore
 
 # Related repos
 
 PickUs frontend: https://github.com/TQSProject/WebUI
-Web eStroe: https://github.com/TQSProject/eStore
+Web eStore: https://github.com/TQSProject/eStore

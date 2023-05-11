@@ -23,4 +23,5 @@ Daniel Ferreira (102885) - Web eStore
 # Related repos
 
 PickUs frontend: https://github.com/TQSProject/WebUI
+
 Web eStore: https://github.com/TQSProject/eStore

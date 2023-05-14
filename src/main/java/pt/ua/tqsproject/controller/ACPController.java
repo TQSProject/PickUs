@@ -7,9 +7,10 @@ import pt.ua.tqsproject.data.ACP;
 import pt.ua.tqsproject.service.ACPService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/acps")
+@RequestMapping("/api/v1/acps")
 public class ACPController {
 	private final ACPService acpService;
 	
@@ -19,21 +20,17 @@ public class ACPController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ACP> createACP(@RequestBody ACP acp) {
+	public ResponseEntity<ACP> saveACP(@RequestBody ACP acp) {
 		// Save the ACP using the ACPService
-		ACP createdACP = acpService.createACP(acp);
+		ACP createdACP = acpService.saveACP(acp);
 		return ResponseEntity.ok(createdACP);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ACP> getACPById(@PathVariable Long id) {
 		// Retrieve the ACP by ID using the ACPService
-		ACP acp = acpService.getACPById(id);
-		if (acp != null) {
-			return ResponseEntity.ok(acp);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+		Optional<ACP> acp = acpService.getACPById(id);
+		return acp.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
 	
 	@GetMapping("")

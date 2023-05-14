@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.*;
 import pt.ua.tqsproject.data.CustomerOrder;
 import pt.ua.tqsproject.service.CustomerOrderService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/v1/customerorders")
 public class CustomerOrderController {
 	private final CustomerOrderService orderService;
 	
@@ -20,16 +21,20 @@ public class CustomerOrderController {
 	
 	@PostMapping
 	public ResponseEntity<CustomerOrder> createOrder(@RequestBody CustomerOrder order) {
-		// Save the order using the OrderService
-		CustomerOrder createdOrder = orderService.createOrder(order);
-		return ResponseEntity.ok(createdOrder);
+		// Save the order using the CustomerOrderService
+		return ResponseEntity.ok(orderService.saveOrder(order));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<CustomerOrder> getOrderById(@PathVariable Long id) {
-		// Retrieve the order by ID using the OrderService
-		Optional<CustomerOrder> order = orderService.getOrderById(id);
-		return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+		// Retrieve the order by ID using the CustomerOrderService
+		Optional<CustomerOrder> customerOrder = orderService.getOrderById(id);
+		return customerOrder.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping("")
+	public ResponseEntity<List<CustomerOrder>> getAllOrder() {
+		return ResponseEntity.ok(orderService.getAllOrders());
 	}
 }
 

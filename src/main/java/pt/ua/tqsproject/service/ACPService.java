@@ -17,15 +17,14 @@ public class ACPService {
 		this.acpRepository = acpRepository;
 	}
 	
-	public ACP createACP(ACP acp) {
+	public ACP saveACP(ACP acp) {
 		// Implement the logic to create and save the ACP
 		return acpRepository.save(acp);
 	}
 	
-	public ACP getACPById(Long id) {
+	public Optional<ACP> getACPById(Long id) {
 		// Implement the logic to retrieve an ACP by ID
-		Optional<ACP> acpOptional = acpRepository.findById(id);
-		return acpOptional.orElse(null);
+		return acpRepository.findById(id);
 	}
 	
 	public List<ACP> getAllACPs() {

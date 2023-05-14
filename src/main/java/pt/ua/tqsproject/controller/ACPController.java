@@ -34,9 +34,19 @@ public class ACPController {
 	}
 	
 	@GetMapping("")
-	public ResponseEntity<List<ACP>> getAllACPs() {
-		// Retrieve all ACPs using the ACPService
-		List<ACP> acps = acpService.getAllACPs();
+	public ResponseEntity<List<ACP>> getAllACPs(@RequestParam(value = "city", required = false) String city,
+	                                            @RequestParam(value = "name", required = false) String name) {
+		List<ACP> acps;
+		if (city != null) {
+			// Filter ACPs by city
+			acps = acpService.getACPsByCity(city);
+		} else if (name != null) {
+			// Filter ACPs by name
+			acps = acpService.getACPByName(name);
+		} else {
+			// Retrieve all ACPs
+			acps = acpService.getAllACPs();
+		}
 		return ResponseEntity.ok(acps);
 	}
 }

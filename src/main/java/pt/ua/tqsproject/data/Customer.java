@@ -1,4 +1,4 @@
-package pt.ua.tqsproject;
+package pt.ua.tqsproject.data;
 
 import jakarta.persistence.*;
 

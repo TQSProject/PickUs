@@ -5,6 +5,8 @@
 ### Locally
 In `application.properties`, make sure `spring.datasource.url=jdbc:mysql://localhost:3306/mydb` is the url being used.
 
+Start up the sql container with `docker compose up mysql-db`.
+
 Then run it like a normal springboot application in a dev environment.
 
 ### Docker

@@ -1,0 +1,1 @@
+# Spring Boot project for PickUs backend

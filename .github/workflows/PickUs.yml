@@ -12,7 +12,7 @@ jobs:
       with:
         java-version: 17
     - name: Create MySQL container
-      run: docker compose -f PickUs/docker-compose.yml up mysql-db
+      run: docker compose -d -f PickUs/docker-compose.yml up mysql-db -d
     - name: Compile
       run: mvn clean install -DskipTests --file PickUs/pom.xml
     - name: Run tests

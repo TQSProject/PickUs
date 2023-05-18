@@ -22,8 +22,18 @@ public class ACPService {
 		return acpRepository.save(acp);
 	}
 	
-	public List<ACP> getAllACPs() {
-		// Implement the logic to retrieve all ACPs
-		return acpRepository.findAll();
+	public Optional<ACP> getACPById(Long id) {
+		// Implement the logic to retrieve an ACP by ID
+		return acpRepository.findById(id);
+	}
+	
+	public List<ACP> getACPByName(String name) {
+		// Implement the logic to retrieve an ACP by ID
+		return acpRepository.getACPsByNameContains(name);
+	}
+	
+	public List<ACP> getACPsByCity(String city) {
+		// Implement the logic to retrieve an ACP by ID
+		return acpRepository.getACPSByCityContains(city);
 	}
 }

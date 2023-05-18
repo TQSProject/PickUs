@@ -36,4 +36,9 @@ public class ACPService {
 		// Implement the logic to retrieve an ACP by ID
 		return acpRepository.getACPSByCityContains(city);
 	}
+	
+	public List<ACP> getAllACPs() {
+		// Implement the logic to retrieve all ACPs
+		return acpRepository.findAll();
+	}
 }

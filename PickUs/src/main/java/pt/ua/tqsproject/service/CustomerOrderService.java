@@ -22,4 +22,12 @@ public class CustomerOrderService {
 		order.setStatus(Status.NOT_ACCEPTED);
 		return orderRepository.save(order);
 	}
+	
+	public List<CustomerOrder> getAllOrders() {
+		return orderRepository.findAll();
+	}
+	
+	public Optional<CustomerOrder> getOrderById(Long id) {
+		return orderRepository.findById(id);
+	}
 }

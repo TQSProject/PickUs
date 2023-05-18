@@ -24,6 +24,17 @@ public class CustomerOrderController {
 		// Save the order using the CustomerOrderService
 		return ResponseEntity.ok(orderService.saveOrder(order));
 	}
-
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<CustomerOrder> getOrderById(@PathVariable Long id) {
+		// Retrieve the order by ID using the CustomerOrderService
+		Optional<CustomerOrder> customerOrder = orderService.getOrderById(id);
+		return customerOrder.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping("")
+	public ResponseEntity<List<CustomerOrder>> getAllOrder() {
+		return ResponseEntity.ok(orderService.getAllOrders());
+	}
 }
 

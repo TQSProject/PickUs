@@ -3,8 +3,6 @@ name: Sonar Analysis
 on:
   workflow_run:
     workflows: ["PickUs Tests"]
-    types:
-      - completed
 
 jobs:
   build:

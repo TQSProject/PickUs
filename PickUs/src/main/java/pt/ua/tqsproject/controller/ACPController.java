@@ -47,6 +47,8 @@ public class ACPController {
 			// Retrieve all ACPs
 			acps = acpService.getAllACPs();
 		}
+		return ResponseEntity.ok(acps);
+	}
 }
 
 

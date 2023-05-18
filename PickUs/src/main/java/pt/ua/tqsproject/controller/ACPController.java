@@ -26,6 +26,30 @@ public class ACPController {
 		return ResponseEntity.ok(createdACP);
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<ACP> getACPById(@PathVariable Long id) {
+		// Retrieve the ACP by ID using the ACPService
+		Optional<ACP> acp = acpService.getACPById(id);
+		return acp.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping("")
+	public ResponseEntity<List<ACP>> getAllACPs(@RequestParam(value = "city", required = false) String city,
+	                                            @RequestParam(value = "name", required = false) String name) {
+		List<ACP> acps;
+		if (city != null) {
+			// Filter ACPs by city
+			acps = acpService.getACPsByCity(city);
+		} else if (name != null) {
+			// Filter ACPs by name
+			acps = acpService.getACPByName(name);
+		} else {
+			// Retrieve all ACPs
+			acps = acpService.getAllACPs();
+		}
+		return ResponseEntity.ok(acps);
+	}
+	
 }
 
 

@@ -1,0 +1,24 @@
+services:
+  mysql-db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3306" ]
+      interval: 1s
+      timeout: 1s
+      retries: 100
+
+  springboot:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    links:
+      - mysql-db

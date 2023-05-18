@@ -1,13 +1,13 @@
-package PickUs;
+package pt.ua.tqsproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PickUsApplication {
+public class TqsProjectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PickUsApplication.class, args);
+		SpringApplication.run(TqsProjectApplication.class, args);
 	}
 
 }

@@ -22,4 +22,8 @@ public class ACPService {
 		return acpRepository.save(acp);
 	}
 	
+	public List<ACP> getAllACPs() {
+		// Implement the logic to retrieve all ACPs
+		return acpRepository.findAll();
+	}
 }

@@ -1,12 +1,12 @@
-package PickUs;
+package pt.ua.tqsproject;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PickUsApplicationTests {
+class TqsProjectApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 

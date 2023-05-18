@@ -1,10 +1,10 @@
-package pt.ua.tqsproject.service;
+package pt.ua.tqsproject.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pt.ua.tqsproject.data.CustomerOrder;
-import pt.ua.tqsproject.data.CustomerOrderRepository;
-import pt.ua.tqsproject.data.Status;
+import pt.ua.tqsproject.entities.CustomerOrder;
+import pt.ua.tqsproject.repositories.CustomerOrderRepository;
+import pt.ua.tqsproject.entities.Status;
 
 import java.util.List;
 import java.util.Optional;

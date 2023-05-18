@@ -1,4 +1,4 @@
-package pt.ua.tqsproject.data;
+package pt.ua.tqsproject.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,20 +6,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Product {
+public class ACP {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
-	private float price;
+	private String city;
 	
-	public Product() {
+	public ACP() {
 	
-	}
-	
-	public Product(String name, float price) {
-		this.name = name;
-		this.price = price;
 	}
 	
 	public String getName() {
@@ -30,11 +25,11 @@ public class Product {
 		this.name = name;
 	}
 	
-	public float getPrice() {
-		return price;
+	public String getCity() {
+		return city;
 	}
 	
-	public void setPrice(float price) {
-		this.price = price;
+	public void setCity(String city) {
+		this.city = city;
 	}
 }

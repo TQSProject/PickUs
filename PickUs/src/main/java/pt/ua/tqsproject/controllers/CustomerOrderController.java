@@ -1,10 +1,10 @@
-package pt.ua.tqsproject.controller;
+package pt.ua.tqsproject.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pt.ua.tqsproject.data.CustomerOrder;
-import pt.ua.tqsproject.service.CustomerOrderService;
+import pt.ua.tqsproject.entities.CustomerOrder;
+import pt.ua.tqsproject.services.CustomerOrderService;
 
 import java.util.List;
 import java.util.Optional;

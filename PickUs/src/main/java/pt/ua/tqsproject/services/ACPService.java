@@ -1,9 +1,9 @@
-package pt.ua.tqsproject.service;
+package pt.ua.tqsproject.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pt.ua.tqsproject.data.ACP;
-import pt.ua.tqsproject.data.ACPRepository;
+import pt.ua.tqsproject.entities.ACP;
+import pt.ua.tqsproject.repositories.ACPRepository;
 
 import java.util.List;
 import java.util.Optional;

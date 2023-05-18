@@ -1,1 +1,5 @@
-PickUs\PickUsApplication.class
+pt\ua\tqsproject\controllers\ACPController.class
+pt\ua\tqsproject\entities\ACP.class
+pt\ua\tqsproject\repositories\ACPRepository.class
+pt\ua\tqsproject\TqsProjectApplication.class
+pt\ua\tqsproject\services\ACPService.class

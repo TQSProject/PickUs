@@ -57,6 +57,9 @@
 
 	<profiles>
 		<profile>
+		  <activation>
+          	<activeByDefault>true</activeByDefault>
+    	  </activation>
 		  <id>coverage</id>
 		  <build>
 		   <plugins>

@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: PickUs tests
+    name: PickUs Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

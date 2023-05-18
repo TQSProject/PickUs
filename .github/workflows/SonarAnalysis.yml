@@ -1,11 +1,10 @@
 name: Sonar Analysis
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_run:
+    workflows: ["PickUs Tests"]
+    types:
+      - completed
 
 jobs:
   build:

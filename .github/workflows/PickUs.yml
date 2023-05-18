@@ -9,6 +9,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set up JDK 17
       uses: actions/setup-java@v1
+    - name: Create MySQL container
+      run: docker compose -f PickUs/docker-compose.yml up mysql-db
       with:
         java-version: 17
     - name: Compile

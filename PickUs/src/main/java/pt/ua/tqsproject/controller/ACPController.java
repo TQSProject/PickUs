@@ -26,6 +26,13 @@ public class ACPController {
 		return ResponseEntity.ok(createdACP);
 	}
 	
+	@GetMapping("")
+	public ResponseEntity<List<ACP>> getAllACPs() {
+		List<ACP> acps;
+		acps = acpService.getAllACPs();
+		return ResponseEntity.ok(acps);
+	}
+	
 }
 
 

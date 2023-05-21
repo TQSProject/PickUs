@@ -1,6 +1,7 @@
-package pt.ua.tqsproject;
+package pt.ua.tqsproject.unit;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,13 @@ public class ACPRepositoryTests {
 	@Autowired
 	ACPRepository acpRepository;
 	
+	@BeforeEach
+	public void clearDatabase() {
+		acpRepository.deleteAll();
+	}
+	
 	@Test
-	public void testCreateReadDelete() {
+	public void testCreateReadDeleteACP() {
 		ACP acp = new ACP("Continente", "Viseu");
 		
 		acpRepository.save(acp);
@@ -28,6 +34,15 @@ public class ACPRepositoryTests {
 		Assertions.assertThat(acpRepository.findAll()).isNotEmpty();
 		Assertions.assertThat(acps).extracting(ACP::getName).containsOnly("Continente");
 		Assertions.assertThat(acps).extracting(ACP::getCity).containsOnly("Viseu");
+		
+		acp.setCity("Aveiro");
+		acp.setName("Intermarche");
+		acpRepository.save(acp);
+		
+		acps = acpRepository.findAll();
+		Assertions.assertThat(acpRepository.findAll()).isNotEmpty();
+		Assertions.assertThat(acps).extracting(ACP::getName).containsOnly("Intermarche");
+		Assertions.assertThat(acps).extracting(ACP::getCity).containsOnly("Aveiro");
 		
 		acpRepository.deleteAll();
 		Assertions.assertThat(acpRepository.findAll()).isEmpty();

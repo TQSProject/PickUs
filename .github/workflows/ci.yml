@@ -41,8 +41,6 @@ jobs:
           distribution: 'zulu' # Alternative distribution options are available.
       - name: Create MySQL container
         run: docker compose -f PickUs/docker-compose.yml up mysql-db -d
-      - name: Create MySQL container
-        run: docker compose up mysql-db
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:

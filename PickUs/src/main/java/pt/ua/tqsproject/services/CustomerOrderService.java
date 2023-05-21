@@ -2,9 +2,10 @@ package pt.ua.tqsproject.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pt.ua.tqsproject.entities.CustomerOrder;
-import pt.ua.tqsproject.entities.Status;
+import pt.ua.tqsproject.entities.*;
 import pt.ua.tqsproject.repositories.CustomerOrderRepository;
+
+import java.util.List;
 
 @Service
 public class CustomerOrderService {
@@ -19,4 +20,13 @@ public class CustomerOrderService {
 		order.setStatus(Status.NOT_ACCEPTED);
 		return orderRepository.save(order);
 	}
+	
+	public static CustomerOrder generateOrder() {
+		Product product = new Product("milk", 1.25);
+		Customer customer = new Customer("Mike");
+		ACP acp = new ACP("Continente", "Aveiro");
+		return new CustomerOrder(List.of(product), customer, acp, Status.NOT_ACCEPTED);
+	}
+
+
 }

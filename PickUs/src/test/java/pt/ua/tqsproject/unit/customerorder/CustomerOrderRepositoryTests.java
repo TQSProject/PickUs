@@ -40,7 +40,10 @@ public class CustomerOrderRepositoryTests {
 		
 		Iterable<CustomerOrder> customerOrders = customerOrderRepository.findAll();
 		assertThat(customerOrderRepository.findAll()).isNotEmpty();
-		assertThat(customerOrders).extracting(CustomerOrder::getProducts).filteredOn(products -> products.contains(product));
+		assertThat(customerOrders)
+				.extracting(CustomerOrder::getProducts)
+				.anyMatch(products -> products.contains(product));
+		
 		assertThat(customerOrders).extracting(CustomerOrder::getBuyer).containsOnly(customer);
 		assertThat(customerOrders).extracting(CustomerOrder::getDropOffSite).containsOnly(acp);
 		assertThat(customerOrders).extracting(CustomerOrder::getStatus).containsOnly(Status.NOT_ACCEPTED);

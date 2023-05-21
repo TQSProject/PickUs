@@ -1,6 +1,7 @@
 package pt.ua.tqsproject.integration;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pt.ua.tqsproject.controllers.ACPController;
 import pt.ua.tqsproject.entities.ACP;
+import pt.ua.tqsproject.repositories.ACPRepository;
 
 
 @ExtendWith(SpringExtension.class)
@@ -20,10 +22,19 @@ public class ACPIntegrationTests {
 	ACPController acpController;
 	
 	@Autowired
+	ACPRepository acpRepository;
+	
+	@Autowired
 	private TestRestTemplate restTemplate;
 	
 	@LocalServerPort
 	private int port;
+	
+	@AfterEach
+	public void clearDatabase() {
+		acpRepository.deleteAll();
+		acpRepository.flush();
+	}
 	
 	@Test
 	public void testCreate() {

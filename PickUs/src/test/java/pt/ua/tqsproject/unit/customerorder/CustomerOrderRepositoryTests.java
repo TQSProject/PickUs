@@ -1,5 +1,6 @@
 package pt.ua.tqsproject.unit.customerorder;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,7 @@ public class CustomerOrderRepositoryTests {
 	@Autowired
 	CustomerOrderRepository customerOrderRepository;
 	
+	@AfterEach
 	@BeforeEach
 	public void clearDatabase() {
 		customerOrderRepository.deleteAll();

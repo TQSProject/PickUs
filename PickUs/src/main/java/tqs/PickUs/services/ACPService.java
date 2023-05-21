@@ -1,12 +1,9 @@
-package pt.ua.tqsproject.services;
+package tqs.PickUs.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pt.ua.tqsproject.entities.ACP;
-import pt.ua.tqsproject.repositories.ACPRepository;
-
-import java.util.List;
-import java.util.Optional;
+import tqs.PickUs.entities.ACP;
+import tqs.PickUs.repositories.ACPRepository;
 
 @Service
 public class ACPService {

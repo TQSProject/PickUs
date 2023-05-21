@@ -1,4 +1,4 @@
-package pt.ua.tqsproject.unit;
+package tqs.PickUs.unit.acp;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import pt.ua.tqsproject.controllers.ACPController;
-import pt.ua.tqsproject.entities.ACP;
-import pt.ua.tqsproject.services.ACPService;
+import tqs.PickUs.controllers.ACPController;
+import tqs.PickUs.entities.ACP;
+import tqs.PickUs.services.ACPService;
 
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;

@@ -1,6 +1,7 @@
-package pt.ua.tqsproject.unit;
+package tqs.PickUs.unit.acp;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pt.ua.tqsproject.entities.ACP;
-import pt.ua.tqsproject.repositories.ACPRepository;
+import tqs.PickUs.entities.ACP;
+import tqs.PickUs.repositories.ACPRepository;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -19,10 +20,13 @@ public class ACPRepositoryTests {
 	@Autowired
 	ACPRepository acpRepository;
 	
+	
 	@BeforeEach
+	@AfterEach
 	public void clearDatabase() {
 		acpRepository.deleteAll();
 	}
+	
 	
 	@Test
 	public void testCreateReadDeleteACP() {

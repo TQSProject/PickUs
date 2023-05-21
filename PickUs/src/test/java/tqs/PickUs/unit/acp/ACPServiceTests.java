@@ -1,4 +1,4 @@
-package pt.ua.tqsproject.unit;
+package tqs.PickUs.unit.acp;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -7,9 +7,9 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pt.ua.tqsproject.entities.ACP;
-import pt.ua.tqsproject.repositories.ACPRepository;
-import pt.ua.tqsproject.services.ACPService;
+import tqs.PickUs.entities.ACP;
+import tqs.PickUs.repositories.ACPRepository;
+import tqs.PickUs.services.ACPService;
 
 @ExtendWith(MockitoExtension.class)
 public class ACPServiceTests {

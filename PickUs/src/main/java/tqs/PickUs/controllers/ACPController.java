@@ -1,13 +1,10 @@
-package pt.ua.tqsproject.controllers;
+package tqs.PickUs.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pt.ua.tqsproject.entities.ACP;
-import pt.ua.tqsproject.services.ACPService;
-
-import java.util.List;
-import java.util.Optional;
+import tqs.PickUs.entities.ACP;
+import tqs.PickUs.services.ACPService;
 
 @RestController
 @RequestMapping("/api/v1/acps")

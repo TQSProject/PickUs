@@ -31,7 +31,7 @@ public class CustomerOrderRepositoryTests {
 	}
 	
 	@Test
-	public void testCreateReadDeleteCustomerOrder() {
+	public void testCreateSearchReadDeleteCustomerOrder() {
 		Product product = new Product("milk", 1.25);
 		Customer customer = new Customer("Mike");
 		ACP acp = new ACP("Continente", "Aveiro");
@@ -40,6 +40,16 @@ public class CustomerOrderRepositoryTests {
 		customerOrderRepository.save(customerOrder);
 		
 		Iterable<CustomerOrder> customerOrders = customerOrderRepository.findAll();
+		Assertions.assertThat(customerOrderRepository.findAll()).isNotEmpty();
+		assertThat(customerOrders)
+				.extracting(CustomerOrder::getProducts)
+				.anyMatch(products -> products.contains(product));
+		
+		assertThat(customerOrders).extracting(CustomerOrder::getBuyer).containsOnly(customer);
+		assertThat(customerOrders).extracting(CustomerOrder::getDropOffSite).containsOnly(acp);
+		assertThat(customerOrders).extracting(CustomerOrder::getStatus).containsOnly(Status.NOT_ACCEPTED);
+		
+		customerOrders = customerOrderRepository.findCustomerOrderByBuyerIdAndStatus(customer.getId(), Status.NOT_ACCEPTED);
 		Assertions.assertThat(customerOrderRepository.findAll()).isNotEmpty();
 		assertThat(customerOrders)
 				.extracting(CustomerOrder::getProducts)

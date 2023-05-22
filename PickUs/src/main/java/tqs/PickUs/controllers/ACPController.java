@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import tqs.PickUs.entities.ACP;
 import tqs.PickUs.services.ACPService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/acps")
 public class ACPController {
@@ -21,6 +23,13 @@ public class ACPController {
 		// Save the ACP using the ACPService
 		ACP createdACP = acpService.saveACP(acp);
 		return ResponseEntity.ok(createdACP);
+	}
+	
+	@GetMapping("")
+	public ResponseEntity<List<ACP>> getAllACPs() {
+		List<ACP> acps;
+		acps = acpService.getAllACPs();
+		return ResponseEntity.ok(acps);
 	}
 }
 

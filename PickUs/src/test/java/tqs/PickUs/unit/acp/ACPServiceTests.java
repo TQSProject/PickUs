@@ -27,4 +27,11 @@ public class ACPServiceTests {
 		
 		verify(acpRepository, times(1)).save(acp);
 	}
+	
+	@Test
+	public void testGetAllACPs() {
+		acpService.getAllACPs();
+		
+		verify(acpRepository, times(1)).findAll();
+	}
 }

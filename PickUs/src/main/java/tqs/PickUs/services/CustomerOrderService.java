@@ -11,6 +11,13 @@ import java.util.List;
 public class CustomerOrderService {
 	private final CustomerOrderRepository orderRepository;
 	
+	public static CustomerOrder generateOrder() {
+		Product product = new Product("milk", 1.25);
+		Customer customer = new Customer("Mike");
+		ACP acp = new ACP("Continente", "Aveiro");
+		return new CustomerOrder(List.of(product), customer, acp, Status.NOT_ACCEPTED);
+	}
+	
 	@Autowired
 	public CustomerOrderService(CustomerOrderRepository orderRepository) {
 		this.orderRepository = orderRepository;
@@ -21,12 +28,7 @@ public class CustomerOrderService {
 		return orderRepository.save(order);
 	}
 	
-	public static CustomerOrder generateOrder() {
-		Product product = new Product("milk", 1.25);
-		Customer customer = new Customer("Mike");
-		ACP acp = new ACP("Continente", "Aveiro");
-		return new CustomerOrder(List.of(product), customer, acp, Status.NOT_ACCEPTED);
+	public List<CustomerOrder> getOrdersByCustomerAndStatus(Long customerID, Status status) {
+		return orderRepository.findCustomerOrderByBuyerIdAndStatus(customerID, status);
 	}
-
-
 }

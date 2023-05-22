@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tqs.PickUs.entities.CustomerOrder;
+import tqs.PickUs.entities.Status;
 import tqs.PickUs.services.CustomerOrderService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/customerorders")
@@ -20,6 +23,13 @@ public class CustomerOrderController {
 	public ResponseEntity<CustomerOrder> createOrder(@RequestBody CustomerOrder order) {
 		// Save the order using the CustomerOrderService
 		return ResponseEntity.ok(orderService.saveOrder(order));
+	}
+	
+	@GetMapping("/")
+	public ResponseEntity<List<CustomerOrder>> getOrdersByCustomerAndStatus(@RequestParam Long customerID,
+	                                                                  @RequestParam Status status) {
+		List<CustomerOrder> customerOrder = orderService.getOrdersByCustomerAndStatus(customerID, status);
+		return ResponseEntity.ok(customerOrder);
 	}
 }
 

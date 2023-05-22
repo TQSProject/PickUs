@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tqs.PickUs.entities.CustomerOrder;
+import tqs.PickUs.entities.Status;
 import tqs.PickUs.repositories.CustomerOrderRepository;
 import tqs.PickUs.services.CustomerOrderService;
 
@@ -27,5 +28,16 @@ public class CustomerOrderServiceTests {
 		customerOrderService.saveOrder(customerOrder);
 		
 		verify(customerOrderRepository, times(1)).save(customerOrder);
+	}
+	
+	@Test
+	public void testSearchCustomerOrder() {
+		CustomerOrder customerOrder = CustomerOrderService.generateOrder();
+		
+		customerOrderService.getOrdersByCustomerAndStatus(customerOrder.getBuyer().getId(), Status.NOT_ACCEPTED);
+		
+		verify(customerOrderRepository,
+				times(1))
+				.findCustomerOrderByBuyerIdAndStatus(customerOrder.getBuyer().getId(), Status.NOT_ACCEPTED);
 	}
 }

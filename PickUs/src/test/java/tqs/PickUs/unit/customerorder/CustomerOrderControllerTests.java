@@ -6,12 +6,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import tqs.PickUs.controllers.CustomerOrderController;
-import tqs.PickUs.services.CustomerOrderService;
 import tqs.PickUs.entities.CustomerOrder;
+import tqs.PickUs.services.CustomerOrderService;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
@@ -34,13 +33,22 @@ public class CustomerOrderControllerTests {
 		
 		when(customerOrderService.saveOrder(any(CustomerOrder.class))).then(returnsFirstArg());
 		
-		
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-		
 		ResponseEntity<CustomerOrder> responseEntity = customerOrderController.createOrder(customerOrder);
 		
 		assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
 		assertThat(responseEntity.getBody()).isEqualTo(customerOrder);
+	}
+	
+	@Test
+	public void testFindCustomerOrder() {
+		CustomerOrder customerOrder = CustomerOrderService.generateOrder();
+		Long customerId = customerOrder.getBuyer().getId();
+		
+		when(customerOrderService.getOrdersByCustomerAndStatus(customerId, customerOrder.getStatus())).thenReturn(List.of(customerOrder));
+		
+		ResponseEntity<List<CustomerOrder>> responseEntity = customerOrderController.getOrdersByCustomerAndStatus(customerId, customerOrder.getStatus());
+		
+		assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
+		assertThat(responseEntity.getBody()).contains(customerOrder);
 	}
 }

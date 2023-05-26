@@ -3,16 +3,16 @@ package tqs.PickUs.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tqs.PickUs.entities.ACP;
-import tqs.PickUs.repositories.ACPRepository;
+import tqs.PickUs.repositories.ACPsRepository;
 
 import java.util.List;
 
 @Service
-public class ACPService {
-	private final ACPRepository acpRepository;
+public class ACPsService {
+	private final ACPsRepository acpRepository;
 	
 	@Autowired
-	public ACPService(ACPRepository acpRepository) {
+	public ACPsService(ACPsRepository acpRepository) {
 		this.acpRepository = acpRepository;
 	}
 	

@@ -9,20 +9,21 @@ import java.util.List;
 
 @Service
 public class ACPsService {
-	private final ACPsRepository acpRepository;
-	
 	@Autowired
-	public ACPsService(ACPsRepository acpRepository) {
-		this.acpRepository = acpRepository;
-	}
+	private ACPsRepository acpsRepository;
 	
 	public ACP saveACP(ACP acp) {
 		// Implement the logic to create and save the ACP
-		return acpRepository.save(acp);
+		return acpsRepository.save(acp);
 	}
 	
 	public List<ACP> getAllACPs() {
 		// Implement the logic to retrieve all ACPs
-		return acpRepository.findAll();
+		return acpsRepository.findAll();
+	}
+
+	public ACP getACPById(int id)
+	{
+		return acpsRepository.findById(id);
 	}
 }

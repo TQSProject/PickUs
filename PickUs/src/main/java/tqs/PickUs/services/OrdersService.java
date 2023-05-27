@@ -8,6 +8,7 @@ import tqs.PickUs.repositories.OrdersRepository;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +40,12 @@ public class OrdersService {
 					.collect(Collectors.toList());
 		}
 
+		if (params.containsKey("buyer") && params.get("buyer") != null && !params.get("buyer").isBlank()) {
+			orders = orders.stream()
+					.filter(order -> order.getBuyer().equalsIgnoreCase(params.get("buyer")))
+					.collect(Collectors.toList());
+		}
+
 		if (params.containsKey("acp") && params.get("acp") != null && !params.get("acp").isBlank()) {
 			orders = orders.stream()
 					.filter(order -> order.getAcp().getName().equalsIgnoreCase(params.get("acp")))
@@ -47,7 +54,7 @@ public class OrdersService {
 
 		if (params.containsKey("product") && params.get("product") != null && !params.get("product").isBlank()) {
 			orders = orders.stream()
-					.filter(order -> order.getProduct().equalsIgnoreCase(params.get("product")))
+					.filter(order -> StringUtils.containsIgnoreCase(order.getProduct(), params.get("product")))
 					.collect(Collectors.toList());
 		}
 
@@ -63,11 +70,13 @@ public class OrdersService {
 	// Returns num of orders created (1 order for each product)
 	public int createOrders(ObjectNode json) {
 		if (json.get("store") == null || json.get("store").asText().isBlank()
-				|| json.get("acp") == null || json.get("acp").asText().isBlank())
+				|| json.get("acp") == null || json.get("acp").asText().isBlank()
+				|| json.get("buyer") == null || json.get("buyer").asText().isBlank())
 			return 0;
 
 		String store = json.get("store").asText();
 		String acpName = json.get("acp").asText();
+		String buyer = json.get("buyer").asText();
 		ACP acp = acpsRepository.findByName(acpName);
 		if (acp == null)
 			return 0;
@@ -85,6 +94,7 @@ public class OrdersService {
 			for (int i = 0; i < count; i++) {
 				Order createdOrder = new Order();
 				createdOrder.setStore(store);
+				createdOrder.setBuyer(buyer);
 				createdOrder.setAcp(acp);
 				createdOrder.setProduct(product);
 				ordersRepository.save(createdOrder);
@@ -94,14 +104,15 @@ public class OrdersService {
 		}
 
 		// If many products
-		// "products": [ {name: "Toothpaste X", count: 2}, {name: "Luso Water 1L", count: 1} ]
+		// "products": [ {name: "Toothpaste X", count: 2}, {name: "Luso Water 1L",
+		// count: 1} ]
 		// Make 1 order for each product (if count=3, make 3 orders)
 
 		int totalOrders = 0;
 		if (json.get("products") != null) {
 			int numDifferentProducts = json.get("products").size();
 
-			// Validate "products" field 
+			// Validate "products" field
 			for (int i = 0; i < numDifferentProducts; i++) {
 				JsonNode thisProduct = json.get("products").get(i);
 				if (thisProduct.get("name") == null || thisProduct.get("name").asText().isBlank())
@@ -120,6 +131,7 @@ public class OrdersService {
 				for (int j = 0; j < count; j++) {
 					Order createdOrder = new Order();
 					createdOrder.setStore(store);
+					createdOrder.setBuyer(buyer);
 					createdOrder.setAcp(acp);
 					createdOrder.setProduct(productName);
 					ordersRepository.save(createdOrder);
@@ -131,6 +143,10 @@ public class OrdersService {
 		}
 
 		return 0;
+	}
+
+	public Order save(Order order) {
+		return ordersRepository.save(order);
 	}
 
 }

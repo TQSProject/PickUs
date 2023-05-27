@@ -15,13 +15,14 @@ public class ACP {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String name;
-	
+
+	@Column(nullable = false)
 	private String city;
-	
+
 	public ACP() {
-	
+
 	}
 
 	public ACP(String name, String city) {
@@ -41,19 +42,19 @@ public class ACP {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getCity() {
 		return city;
 	}
-	
+
 	public void setCity(String city) {
 		this.city = city;
 	}

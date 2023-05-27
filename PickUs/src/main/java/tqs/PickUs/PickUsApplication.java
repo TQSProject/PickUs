@@ -58,7 +58,7 @@ public class PickUsApplication {
 		HashMap<String, Object> product1 = new HashMap<String, Object>();
 		HashMap<String, Object> product2 = new HashMap<String, Object>();
 		HashMap<String, Object> product3 = new HashMap<String, Object>();
-		product1.put("name", "Toothpaste X20");
+		product1.put("name", "Toothpaste Nax Pro");
 		product1.put("count", 3);
 		product2.put("name", "PS4");
 		product3.put("name", "Samsung Galaxy S10");

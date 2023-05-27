@@ -1,24 +1,34 @@
 services:
   mysql-db:
-    image: mysql
-    restart: always
+    container_name: mysql-db
+    image: mysql/mysql-server:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: 'password'
-      MYSQL_DATABASE: PickUs
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=PickUs
+      - MYSQL_USER=user1
+      - MYSQL_PASSWORD=user1pw
     ports:
-      - "3306:3306"
+      - '33060:3306'
+    restart: unless-stopped
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3306" ]
       interval: 1s
       timeout: 1s
-      retries: 20
+      retries: 100
 
-  springboot:
-    build: .
+  pickus-spring-boot:
+    container_name: pickus-spring-boot
+    build:
+      context: .
     ports:
-      - "8080:8080"
+      - '8080:8080'
     depends_on:
       mysql-db:
         condition: service_healthy
-    links:
-      - mysql-db
+    environment:
+      - DATABASE_HOST=mysql-db
+      - DATABASE_USER=user1
+      - DATABASE_PASSWORD=user1pw
+      - DATABASE_NAME=PickUs
+      - DATABASE_PORT=3306
+    #restart: unless-stopped

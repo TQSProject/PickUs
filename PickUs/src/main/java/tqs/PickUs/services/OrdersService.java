@@ -70,14 +70,24 @@ public class OrdersService {
 	// Returns num of orders created (1 order for each product)
 	public int createOrders(ObjectNode json) {
 		if (json.get("store") == null || json.get("store").asText().isBlank()
-				|| json.get("acp") == null || json.get("acp").asText().isBlank()
+				|| json.get("acp") == null
 				|| json.get("buyer") == null || json.get("buyer").asText().isBlank())
 			return 0;
 
 		String store = json.get("store").asText();
-		String acpName = json.get("acp").asText();
 		String buyer = json.get("buyer").asText();
-		ACP acp = acpsRepository.findByName(acpName);
+		ACP acp = null;
+		if (json.get("acp").isInt())
+		{
+			int acpId = json.get("acp").asInt();
+			acp = acpsRepository.findById(acpId);
+		}
+		else
+		{
+			String acpName = json.get("acp").asText();
+			acp = acpsRepository.findByName(acpName);
+		}
+
 		if (acp == null)
 			return 0;
 

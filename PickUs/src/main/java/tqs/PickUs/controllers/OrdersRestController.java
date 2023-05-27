@@ -19,6 +19,7 @@ public class OrdersRestController {
 	@Autowired
 	private OrdersService ordersService;
 
+	@GetMapping
 	public ResponseEntity<List<Order>> getOrders(
 			@RequestParam(name = "store", required = false) String store,
 			@RequestParam(name = "buyer", required = false) String buyer,
@@ -27,7 +28,7 @@ public class OrdersRestController {
 			@RequestParam(name = "status", required = false) String status) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("store", store);
-		params.put("buyer", store);
+		params.put("buyer", buyer);
 		params.put("acp", acp);
 		params.put("product", product);
 		params.put("status", status);

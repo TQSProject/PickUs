@@ -25,7 +25,7 @@ public class ACPsService {
 	}
 
 	public ACP getACPById(int id) {
-		return acpsRepository.getOne(id);
+		return acpsRepository.findById(id);
 	}
 
 	public ACP getACPByName(String name) {

@@ -1,8 +1,6 @@
 package tqs.PickUs.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-
 import java.time.LocalDateTime;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -34,6 +32,7 @@ public class Order {
 			pickedUpDateTime;
 
 	public Order() {
+		this.status = OrderStatus.WAITING_ADMIN_APPROVAL;
 		this.createdDateTime = LocalDateTime.now();
 	}
 
@@ -106,5 +105,47 @@ public class Order {
 	public void setAcp(ACP acp) {
 		this.acp = acp;
 	}
+
+	public LocalDateTime getCreatedDateTime() {
+		return createdDateTime;
+	}
+
+	public void setCreatedDateTime(LocalDateTime createdDateTime) {
+		this.createdDateTime = createdDateTime;
+	}
+
+	public LocalDateTime getApprovedDateTime() {
+		return approvedDateTime;
+	}
+
+	public void setApprovedDateTime(LocalDateTime approvedDateTime) {
+		this.approvedDateTime = approvedDateTime;
+	}
+
+	public LocalDateTime getEstimatedDeliveryDateTime() {
+		return estimatedDeliveryDateTime;
+	}
+
+	public void setEstimatedDeliveryDateTime(LocalDateTime estimatedDeliveryDateTime) {
+		this.estimatedDeliveryDateTime = estimatedDeliveryDateTime;
+	}
+
+	public LocalDateTime getDeliveredDateTime() {
+		return deliveredDateTime;
+	}
+
+	public void setDeliveredDateTime(LocalDateTime deliveredDateTime) {
+		this.deliveredDateTime = deliveredDateTime;
+	}
+
+	public LocalDateTime getPickedUpDateTime() {
+		return pickedUpDateTime;
+	}
+
+	public void setPickedUpDateTime(LocalDateTime pickedUpDateTime) {
+		this.pickedUpDateTime = pickedUpDateTime;
+	}
+
+	
 
 }

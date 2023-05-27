@@ -14,16 +14,6 @@ public class ACPsRestController {
 	@Autowired
 	private ACPsService acpsService;
 	
-	@PostMapping
-	public ResponseEntity<?> saveACP(@RequestBody ACP acp) {
-		// Save the ACP using the ACPService
-		ACP createdACP = acpsService.saveACP(acp);
-		if (createdACP != null)
-			return ResponseEntity.ok(createdACP);
-		else 
-			return ResponseEntity.badRequest().body("Invalid ACP");
-	}
-	
 	public ResponseEntity<List<ACP>> getAllACPs() {
 		List<ACP> acps = acpsService.getAllACPs();
 		return ResponseEntity.ok(acps);
@@ -37,6 +27,16 @@ public class ACPsRestController {
 			return ResponseEntity.ok(acp);
 		else
 			return ResponseEntity.badRequest().body("Invalid ACP id");
+	}
+
+	@PostMapping
+	public ResponseEntity<?> saveACP(@RequestBody ACP acp) {
+		// Save the ACP using the ACPService
+		ACP createdACP = acpsService.saveACP(acp);
+		if (createdACP != null)
+			return ResponseEntity.ok(createdACP);
+		else 
+			return ResponseEntity.badRequest().body("Invalid ACP");
 	}
 }
 

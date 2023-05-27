@@ -12,11 +12,6 @@ public class ACPsService {
 	@Autowired
 	private ACPsRepository acpsRepository;
 	
-	public ACP saveACP(ACP acp) {
-		// Implement the logic to create and save the ACP
-		return acpsRepository.save(acp);
-	}
-	
 	public List<ACP> getAllACPs() {
 		// Implement the logic to retrieve all ACPs
 		return acpsRepository.findAll();
@@ -25,5 +20,10 @@ public class ACPsService {
 	public ACP getACPById(int id)
 	{
 		return acpsRepository.findById(id);
+	}
+
+	public ACP saveACP(ACP acp) {
+		// Implement the logic to create and save the ACP
+		return acpsRepository.save(acp);
 	}
 }

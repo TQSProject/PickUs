@@ -23,7 +23,10 @@ public class PickUsApplication {
 		System.out.println("Loading initial data...");
 		ACP acp = new ACP("Worten Lisboa", "Lisboa");
 		ACP acp2 = new ACP("Fnac Aveiro", "Aveiro");
+		ACP acp3 = new ACP("Continente #37", "Aveiro");
 		acpsService.save(acp);
 		acpsService.save(acp2);
+		acpsService.save(acp3);
+
 	}
 }

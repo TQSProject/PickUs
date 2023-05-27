@@ -1,7 +1,6 @@
 package tqs.PickUs.entities;
 
 import jakarta.persistence.*;
-import java.util.List;
 import java.time.LocalDateTime;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -11,27 +10,35 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
+	@Column(nullable = false)
 	private String store;
 
+	@Column(nullable = false)
+	private String buyer;
+
+	@Column(nullable = false)
 	private String product;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
+	@Column(nullable = false)
 	private ACP acp;
-	
+
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private OrderStatus status;
 
-	private LocalDateTime createdDateTime, approvedDateTime, estimatedDeliveryDateTime, deliveredDateTime, pickedUpDateTime;
-	
+	private LocalDateTime createdDateTime, approvedDateTime, estimatedDeliveryDateTime, deliveredDateTime,
+			pickedUpDateTime;
+
 	public Order() {
 		this.createdDateTime = LocalDateTime.now();
 	}
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", store=" + store + ", product=" + product + ", acp=" + acp + ", status=" + status
-				+ "]";
+		return "Order [id=" + id + ", store=" + store + ", buyer=" + buyer + ", product=" + product + ", acp=" + acp
+				+ ", status=" + status + "]";
 	}
 
 	public OrderStatus getStatus() {
@@ -41,8 +48,7 @@ public class Order {
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 
-		if (status == OrderStatus.DELIVERING)
-		{
+		if (status == OrderStatus.DELIVERING) {
 			this.approvedDateTime = LocalDateTime.now();
 
 			int minDelaySeconds = 15;
@@ -52,12 +58,11 @@ public class Order {
 			int delaySeconds = ThreadLocalRandom.current().nextInt(minDelaySeconds, maxDelaySeconds + 1);
 
 			this.estimatedDeliveryDateTime = LocalDateTime.now().plusSeconds(delaySeconds);
-		}
-		else if (status == OrderStatus.DELIVERED_AND_WAITING_FOR_PICKUP)
+		} else if (status == OrderStatus.DELIVERED_AND_WAITING_FOR_PICKUP)
 			this.deliveredDateTime = LocalDateTime.now();
 		else if (status == OrderStatus.PICKED_UP)
 			this.pickedUpDateTime = LocalDateTime.now();
-		
+
 	}
 
 	public int getId() {
@@ -76,6 +81,14 @@ public class Order {
 		this.store = store;
 	}
 
+	public String getBuyer() {
+		return buyer;
+	}
+
+	public void setBuyer(String buyer) {
+		this.buyer = buyer;
+	}
+
 	public String getProduct() {
 		return product;
 	}
@@ -91,5 +104,5 @@ public class Order {
 	public void setAcp(ACP acp) {
 		this.acp = acp;
 	}
-	
+
 }

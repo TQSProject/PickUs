@@ -31,3 +31,7 @@ Web eStore: https://github.com/TQSProject/eStore
 `mvn clean install -DskipTests`
 
 `docker compose up`
+
+Or just run run.bat (it contains the 2 lines above) with
+
+`run`

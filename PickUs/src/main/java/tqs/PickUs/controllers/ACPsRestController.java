@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tqs.PickUs.entities.ACP;
+import tqs.PickUs.entities.ACPStatus;
 import tqs.PickUs.entities.Order;
 import tqs.PickUs.services.ACPsService;
 
@@ -69,12 +70,41 @@ public class ACPsRestController {
 			return ResponseEntity.badRequest().body("Invalid ACP");
 	}
 
-	@PostMapping
-	public ResponseEntity<?> updateACP(@RequestBody Map<String, Object> json) {
-		ACP updatedACP = acpsService.updateACP(json);
+	@PostMapping("{acpId}")
+	public ResponseEntity<?> updateACP(@PathVariable int acpId, @RequestBody Map<String, String> json) {
+		ACP acp = acpsService.getACPById(acpId);
+		if (acp == null)
+			return ResponseEntity.badRequest().body("Invalid ACP id");
+
+		if (!json.containsKey("status") || json.get("status").isBlank())
+			return ResponseEntity.badRequest()
+					.body("Invalid request, please include a valid \"status\" field with the new status of the ACP");
+
+		ACPStatus newStatus = null;
+		try {
+			String strNewStatus = json.get("status").toUpperCase();
+			newStatus = ACPStatus.valueOf(strNewStatus);
+		} catch (IllegalArgumentException e) {
+			// status field has invalid value
+			return ResponseEntity.badRequest()
+					.body("Invalid request, please include a valid \"status\" field with the new status of the ACP");
+		}
+
+		ACP updatedACP = acpsService.updateACP(acpId, newStatus);
 		if (updatedACP != null)
 			return ResponseEntity.ok(updatedACP);
 		else
-			return ResponseEntity.badRequest().body("Invalid request");
+			return ResponseEntity.internalServerError().body("Internal server error");
+
+	}
+
+	@PostMapping("{acpName}")
+	public ResponseEntity<?> updateACP(@PathVariable String acpName, @RequestBody Map<String, String> json) {
+		ACP acp = acpsService.getACPByName(acpName);
+		if (acp == null)
+			return ResponseEntity.badRequest().body("Invalid ACP name");
+		
+		return updateACP(acp.getId(), json);
+
 	}
 }

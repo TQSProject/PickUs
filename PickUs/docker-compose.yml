@@ -10,6 +10,12 @@ services:
     ports:
       - '33060:3306'
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3306" ]
+      interval: 1s
+      timeout: 1s
+      retries: 20
+
   pickus-spring-boot:
     container_name: pickus-spring-boot
     build:
@@ -17,11 +23,12 @@ services:
     ports:
       - '8080:8080'
     depends_on:
-      - mysql-db
+      mysql-db:
+        condition: service_healthy
     environment:
       - DATABASE_HOST=mysql-db
       - DATABASE_USER=user1
       - DATABASE_PASSWORD=user1pw
       - DATABASE_NAME=PickUs
       - DATABASE_PORT=3306
-    restart: unless-stopped
+    #restart: unless-stopped

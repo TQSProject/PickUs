@@ -1,6 +1,8 @@
 package tqs.PickUs.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+
 import java.time.LocalDateTime;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -20,8 +22,8 @@ public class Order {
 	@Column(nullable = false)
 	private String product;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@Column(nullable = false)
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(nullable = false)
 	private ACP acp;
 
 	@Enumerated(EnumType.STRING)

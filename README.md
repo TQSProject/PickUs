@@ -26,7 +26,7 @@ PickUs frontend: https://github.com/TQSProject/WebUI
 
 Web eStore: https://github.com/TQSProject/eStore
 
-## How to run:
+# How to run:
 
 `mvn clean install -DskipTests`
 

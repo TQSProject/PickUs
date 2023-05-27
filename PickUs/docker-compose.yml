@@ -4,14 +4,14 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
-      MYSQL_DATABASE: mydb
+      MYSQL_DATABASE: PickUs
     ports:
       - "3306:3306"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3306" ]
       interval: 1s
       timeout: 1s
-      retries: 100
+      retries: 20
 
   springboot:
     build: .

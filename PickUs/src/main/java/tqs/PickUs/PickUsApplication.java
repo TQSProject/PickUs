@@ -22,7 +22,7 @@ public class PickUsApplication {
 		SpringApplication.run(PickUsApplication.class, args);
 	}
 
-	@EventListener(ApplicationReadyEvent.class)
+	//@EventListener(ApplicationReadyEvent.class)
 	public void loadInitialData() throws Exception {
 		System.out.println("Loading initial data...");
 

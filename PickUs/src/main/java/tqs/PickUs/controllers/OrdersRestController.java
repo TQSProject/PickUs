@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import tqs.PickUs.entities.Order;
+import tqs.PickUs.entities.OrderStatus;
 import tqs.PickUs.services.OrdersService;
 
 import java.util.List;
@@ -36,8 +37,8 @@ public class OrdersRestController {
 	}
 
 	@GetMapping("{orderId}")
-	public ResponseEntity<?> getOrderById(@PathVariable int id) {
-		Order order = ordersService.getOrderById(id);
+	public ResponseEntity<?> getOrderById(@PathVariable int orderId) {
+		Order order = ordersService.getOrderById(orderId);
 		if (order != null)
 			return ResponseEntity.ok(order);
 		else
@@ -48,8 +49,35 @@ public class OrdersRestController {
 	public ResponseEntity<?> createOrders(@RequestBody ObjectNode json) {
 		int totalOrdersCreated = ordersService.createOrders(json);
 		if (totalOrdersCreated == 0)
-			return ResponseEntity.badRequest().body("Invalid request");
+			return ResponseEntity.badRequest().body("Invalid order(s) creation request");
 		return ResponseEntity.ok().body(Integer.valueOf(totalOrdersCreated));
+	}
+
+	@PostMapping("{orderId}")
+	public ResponseEntity<?> updateOrder(@PathVariable int orderId, @RequestBody ObjectNode json) {
+		Order order = ordersService.getOrderById(orderId);
+		if (order == null)
+			return ResponseEntity.badRequest().body("Invalid order id");
+
+		if (json.get("status") == null || json.get("status").asText().isBlank())
+			return ResponseEntity.badRequest()
+					.body("Invalid request, please include a valid \"status\" field with the new status of the order");
+
+		OrderStatus newStatus = null;
+		try {
+			String strNewStatus = json.get("status").asText().toUpperCase();
+			newStatus = OrderStatus.valueOf(strNewStatus);
+		} catch (IllegalArgumentException e) {
+			// status field has invalid value
+			return ResponseEntity.badRequest()
+					.body("Invalid request, please include a valid \"status\" field with the new status of the order");
+		}
+
+		Order updatedOrder = ordersService.updateOrder(orderId, newStatus);
+		if (updatedOrder != null)
+			return ResponseEntity.ok(updatedOrder);
+		else
+			return ResponseEntity.internalServerError().body("Internal server error");
 	}
 
 }

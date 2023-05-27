@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,39 +71,14 @@ public class ACPsService {
 		return acpsRepository.save(acp);
 	}
 
-	public ACP updateACP(Map<String, Object> json)
+	public ACP updateACP(int acpId, ACPStatus newStatus)
 	{
-		ACP acp = null;
-
-		if (json.containsKey("id"))
-		{
-			int acpId = (int)json.get("id");
-			acp = acpsRepository.findById(acpId);
-		}
-
-		if (acp == null && json.containsKey("name"))
-			acp = acpsRepository.findByName((String)json.get("name"));
-
+		ACP acp = acpsRepository.findById(acpId);
 		if (acp == null)
 			return null;
 
-		if (json.containsKey("status"))
-		{
-			ACPStatus newStatus = null;
-			try {
-				String strNewStatus = (String)json.get("status");
-				strNewStatus = strNewStatus.toUpperCase();
-				newStatus = ACPStatus.valueOf(strNewStatus);
-			}
-			catch (IllegalArgumentException e)
-			{
-				// status field has invalid value
-				return null;
-			}
-			acp.setStatus(newStatus);
-			acpsRepository.save(acp);
-		}
-
+		acp.setStatus(newStatus);
+		acp = acpsRepository.save(acp);
 		return acp;
 
 	}

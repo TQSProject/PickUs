@@ -145,6 +145,17 @@ public class OrdersService {
 		return 0;
 	}
 
+	public Order updateOrder(int orderId, OrderStatus newStatus) {
+		Order order = ordersRepository.findById(orderId);
+		if (order == null)
+			return null;
+
+		order.setStatus(newStatus);
+		order = ordersRepository.save(order);
+		return order;
+		
+	}
+
 	public Order save(Order order) {
 		return ordersRepository.save(order);
 	}

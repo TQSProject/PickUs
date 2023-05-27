@@ -1,5 +1,5 @@
 package tqs.PickUs.entities;
 
 public enum ACPStatus {
-    WAITING_APPROVAL, APPROVED, REFUSED, REMOVED
+    WAITING_ADMIN_APPROVAL, APPROVED, REFUSED, REMOVED
 }

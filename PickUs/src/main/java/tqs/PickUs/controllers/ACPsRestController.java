@@ -8,7 +8,9 @@ import tqs.PickUs.entities.Order;
 import tqs.PickUs.services.ACPsService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/v1/acps")
@@ -16,12 +18,17 @@ public class ACPsRestController {
 	@Autowired
 	private ACPsService acpsService;
 
-	public ResponseEntity<List<ACP>> getACPs(@RequestParam(name = "city", required = false) String city) {
-		List<ACP> acps = new ArrayList<ACP>();
-		if (city == null || city.isBlank())
-			acps = acpsService.getAllACPs();
-		else
-			acps = acpsService.getACPByCity(city);
+	public ResponseEntity<List<ACP>> getACPs(
+			@RequestParam(name = "name", required = false) String name,
+			@RequestParam(name = "city", required = false) String city,
+			@RequestParam(name = "status", required = false) String status) {
+
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("name", name);
+		params.put("city", city);
+		params.put("status", status);
+
+		List<ACP> acps = acpsService.getACPs(params);
 		return ResponseEntity.ok(acps);
 	}
 
@@ -60,5 +67,14 @@ public class ACPsRestController {
 			return ResponseEntity.ok(createdACP);
 		else
 			return ResponseEntity.badRequest().body("Invalid ACP");
+	}
+
+	@PostMapping
+	public ResponseEntity<?> updateACP(@RequestBody Map<String, Object> json) {
+		ACP updatedACP = acpsService.updateACP(json);
+		if (updatedACP != null)
+			return ResponseEntity.ok(updatedACP);
+		else
+			return ResponseEntity.badRequest().body("Invalid request");
 	}
 }

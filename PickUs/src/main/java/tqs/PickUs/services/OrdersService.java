@@ -67,7 +67,8 @@ public class OrdersService {
 		return orders;
 	}
 
-	// Returns num of orders created (1 order for each product)
+	// Each order has 1 product name and count (how many of that product)
+	// Returns num order created
 	public int createOrders(ObjectNode json) {
 		if (json.get("store") == null || json.get("store").asText().isBlank()
 				|| json.get("acp") == null
@@ -77,13 +78,10 @@ public class OrdersService {
 		String store = json.get("store").asText();
 		String buyer = json.get("buyer").asText();
 		ACP acp = null;
-		if (json.get("acp").isInt())
-		{
+		if (json.get("acp").isInt()) {
 			int acpId = json.get("acp").asInt();
 			acp = acpsRepository.findById(acpId);
-		}
-		else
-		{
+		} else {
 			String acpName = json.get("acp").asText();
 			acp = acpsRepository.findByName(acpName);
 		}
@@ -91,9 +89,7 @@ public class OrdersService {
 		if (acp == null)
 			return 0;
 
-		// If only 1 product
-		// "product": "Toothpaste X"
-		// "count": 2 (optional, default is 1)
+		// If 1 distinct product
 
 		if (json.get("product") != null && !json.get("product").asText().isBlank()) {
 			String product = json.get("product").asText();
@@ -107,18 +103,18 @@ public class OrdersService {
 				createdOrder.setBuyer(buyer);
 				createdOrder.setAcp(acp);
 				createdOrder.setProduct(product);
+				createdOrder.setCount(1);
 				ordersRepository.save(createdOrder);
 			}
 
-			return count;
+			return 1;
 		}
 
-		// If many products
-		// "products": [ {name: "Toothpaste X", count: 2}, {name: "Luso Water 1L",
-		// count: 1} ]
-		// Make 1 order for each product (if count=3, make 3 orders)
+		// If many distinct products
+		// "products": [ {name: "Toothpaste X", count: 2}, {name: "Luso Water 1L",count:
+		// 1} ]
+		// Make 1 order for each distinct product
 
-		int totalOrders = 0;
 		if (json.get("products") != null) {
 			int numDifferentProducts = json.get("products").size();
 
@@ -131,25 +127,23 @@ public class OrdersService {
 					return 0;
 			}
 
-			// Make orders
+			// Make 1 order for each distinct product
 			for (int i = 0; i < numDifferentProducts; i++) {
 				JsonNode thisDistinctProduct = json.get("products").get(i);
 				String productName = json.get("products").get(i).get("name").asText();
 				int count = 1;
 				if (thisDistinctProduct.get("count") != null)
 					count = thisDistinctProduct.get("count").asInt();
-				for (int j = 0; j < count; j++) {
-					Order createdOrder = new Order();
-					createdOrder.setStore(store);
-					createdOrder.setBuyer(buyer);
-					createdOrder.setAcp(acp);
-					createdOrder.setProduct(productName);
-					ordersRepository.save(createdOrder);
-				}
-				totalOrders += count;
+				Order createdOrder = new Order();
+				createdOrder.setStore(store);
+				createdOrder.setBuyer(buyer);
+				createdOrder.setAcp(acp);
+				createdOrder.setProduct(productName);
+				createdOrder.setCount(count);
+				ordersRepository.save(createdOrder);
 			}
 
-			return totalOrders;
+			return numDifferentProducts;
 		}
 
 		return 0;
@@ -163,7 +157,7 @@ public class OrdersService {
 		order.setStatus(newStatus);
 		order = ordersRepository.save(order);
 		return order;
-		
+
 	}
 
 	public Order save(Order order) {

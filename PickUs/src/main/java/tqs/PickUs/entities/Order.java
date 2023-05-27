@@ -20,7 +20,10 @@ public class Order {
 	@Column(nullable = false)
 	private String product;
 
-	@OneToOne(cascade = CascadeType.MERGE)
+	@Column(nullable = false)
+	private int count;
+
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(nullable = false)
 	private ACP acp;
 
@@ -32,18 +35,15 @@ public class Order {
 			pickedUpDateTime;
 
 	public Order() {
-		this.status = OrderStatus.WAITING_ADMIN_APPROVAL;
+		this.count = 1;
+		this.setStatus(OrderStatus.WAITING_ADMIN_APPROVAL);
 		this.createdDateTime = LocalDateTime.now();
 	}
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", store=" + store + ", buyer=" + buyer + ", product=" + product + ", acp=" + acp
-				+ ", status=" + status + "]";
-	}
-
-	public OrderStatus getStatus() {
-		return status;
+		return "Order [id=" + id + ", store=" + store + ", buyer=" + buyer + ", product=" + product + ", count=" + count
+				+ ", acp=" + acp + ", status=" + status + "]";
 	}
 
 	public void setStatus(OrderStatus status) {
@@ -64,6 +64,10 @@ public class Order {
 		else if (status == OrderStatus.PICKED_UP)
 			this.pickedUpDateTime = LocalDateTime.now();
 
+	}
+
+	public OrderStatus getStatus() {
+		return status;
 	}
 
 	public int getId() {
@@ -106,6 +110,14 @@ public class Order {
 		this.acp = acp;
 	}
 
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	public LocalDateTime getCreatedDateTime() {
 		return createdDateTime;
 	}
@@ -145,7 +157,5 @@ public class Order {
 	public void setPickedUpDateTime(LocalDateTime pickedUpDateTime) {
 		this.pickedUpDateTime = pickedUpDateTime;
 	}
-
-	
 
 }

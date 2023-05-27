@@ -28,11 +28,11 @@ public class ACP {
 	private ACPStatus status;
 
 	public ACP() {
-		this.status = ACPStatus.WAITING_APPROVAL;
+		this.status = ACPStatus.WAITING_ADMIN_APPROVAL;
 	}
 
 	public ACP(String name, String city) {
-		this.status = ACPStatus.WAITING_APPROVAL;
+		this.status = ACPStatus.WAITING_ADMIN_APPROVAL;
 		this.name = name;
 		this.city = city;
 	}

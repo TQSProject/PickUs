@@ -17,16 +17,27 @@ public class StatsRestController {
 	
 	@GetMapping("/order-delay")
 	public ResponseEntity<?> averageOrderDelayInSeconds() {
-		double delay = ordersService.averageOrderDelayInSeconds();
-		return ResponseEntity.ok(delay);
+		return ResponseEntity.ok(ordersService.averageOrderDelayInSeconds());
 	}
 	
 	@GetMapping("/total-orders")
 	public ResponseEntity<?> totalOrders() {
-		int numberOfOrders = ordersService.totalOrders();
-		return ResponseEntity.ok(numberOfOrders);
+		return ResponseEntity.ok(ordersService.totalOrders());
 	}
 	
+	@GetMapping("/total-orders/completed")
+	public ResponseEntity<?> totalOrdersCompleted() {
+		return ResponseEntity.ok(ordersService.totalOrdersCompleted());
+	}
 	
+	@GetMapping("/total-orders/cancelled")
+	public ResponseEntity<?> totalOrdersCancelled() {
+		return ResponseEntity.ok(ordersService.totalOrdersCancelled());
+	}
+	
+	@GetMapping("/total-orders/awaiting-approval")
+	public ResponseEntity<?> totalOrdersAwaitingApproval() {
+		return ResponseEntity.ok(ordersService.totalOrdersWaitingApproval());
+	}
 
 }

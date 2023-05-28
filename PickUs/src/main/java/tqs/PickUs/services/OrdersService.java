@@ -186,6 +186,26 @@ public class OrdersService {
 		return ordersRepository.findAll().size();
 	}
 	
+	public int totalOrdersCompleted() {
+		return totalOrdersCondition(OrderStatus.PICKED_UP);
+	}
+	
+	public int totalOrdersCancelled() {
+		return totalOrdersCondition(OrderStatus.CANCELLED);
+	}
+	
+	public int totalOrdersWaitingApproval() {
+		return totalOrdersCondition(OrderStatus.WAITING_ADMIN_APPROVAL);
+	}
+	
+	private int totalOrdersCondition(OrderStatus condition) {
+		int total = 0;
+		for(Order order : ordersRepository.findAll())
+			if(order.getStatus() == condition)
+				total++;
+		return total;
+	}
+	
 	public Order save(Order order) {
 		return ordersRepository.save(order);
 	}

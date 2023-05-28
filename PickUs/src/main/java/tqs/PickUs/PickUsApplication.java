@@ -21,7 +21,7 @@ public class PickUsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PickUsApplication.class, args);
 	}
-
+	
 	@EventListener(ApplicationReadyEvent.class)
 	public void loadInitialData() throws Exception {
 		System.out.println("Loading initial data...");
@@ -113,6 +113,7 @@ public class PickUsApplication {
 
 		System.out.println("Initial data loaded!");
 	}
+	
 
     public void POST(String apiUrl, String requestBody) throws IOException {
 		apiUrl = apiUrl.replaceAll(" ", "%20");

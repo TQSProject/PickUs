@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -159,7 +161,31 @@ public class OrdersService {
 		return order;
 
 	}
+	
+	public double averageOrderDelayInSeconds() {
+		List<Order> orders = ordersRepository.findAll();
+		double sum = 0;
+		int amount = 0;
+		for(Order order : orders) {
+			LocalDateTime createdTime = order.getCreatedDateTime();
+			LocalDateTime pickedUpTime = order.getPickedUpDateTime();
+			if(pickedUpTime == null || createdTime == null)
+				continue;
+			long difference = createdTime.until(pickedUpTime, ChronoUnit.SECONDS);
+			sum += difference;
+			amount++;
+			
+			System.out.println(createdTime + ";" + pickedUpTime + ";" + difference + ";");
+		}
+		if(amount == 0)
+			return 0;
+		return sum/amount;
+	}
 
+	public int totalOrders() {
+		return ordersRepository.findAll().size();
+	}
+	
 	public Order save(Order order) {
 		return ordersRepository.save(order);
 	}

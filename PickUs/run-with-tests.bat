@@ -1,0 +1,1 @@
+down && docker-compose up -d mysql-db && mvn verify && docker-compose up pickus-spring-boot

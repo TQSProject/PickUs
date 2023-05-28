@@ -22,3 +22,7 @@ services:
         condition: service_healthy
     links:
       - mysql-db
+    environment:
+      DATABASE_HOST: mysql-db
+      DATABASE_PORT: 3306
+      DATABASE_NAME: PickUs

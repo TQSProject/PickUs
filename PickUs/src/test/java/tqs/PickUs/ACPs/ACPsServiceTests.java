@@ -54,7 +54,7 @@ public class ACPsServiceTests {
     public void updateMockedRepo() {
         acps = Arrays.asList(continenteGlicinias, fnacAveiro, seasideSetubal, seasidePorto);
         Mockito.when(acpsRepository.findAll()).thenReturn(acps);
-        
+
         Mockito.when(acpsRepository.findByCity("Aveiro")).thenReturn(Arrays.asList(continenteGlicinias, fnacAveiro));
         Mockito.when(acpsRepository.findByCity("Porto")).thenReturn(Arrays.asList(seasidePorto));
         Mockito.when(acpsRepository.findByCity("Setubal")).thenReturn(Arrays.asList(seasideSetubal));
@@ -70,6 +70,7 @@ public class ACPsServiceTests {
 
         Mockito.when(acpsRepository.findById(seasidePorto.getId())).thenReturn(seasidePorto);
         Mockito.when(acpsRepository.findByName(seasidePorto.getName())).thenReturn(seasidePorto);
+
     }
 
     @Test
@@ -115,6 +116,9 @@ public class ACPsServiceTests {
 
     @Test
     public void testUpdateAcpStatus() {
+        // Return the argument
+        Mockito.when(acpsRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+
         for (ACP acp : acps)
             Assertions.assertEquals(acp.getStatus(), ACPStatus.WAITING_ADMIN_APPROVAL);
 
@@ -127,6 +131,8 @@ public class ACPsServiceTests {
 
         Assertions.assertEquals(acpsService.getACPById(continenteGlicinias.getId()).getStatus(),
                 ACPStatus.WAITING_ADMIN_APPROVAL);
+        Assertions.assertNotNull(savedSeasideSetubal);
+        Assertions.assertNotNull(fnacAveiro);
         Assertions.assertEquals(savedFnacAveiro, fnacAveiro);
         Assertions.assertEquals(savedFnacAveiro.getStatus(), fnacAveiro.getStatus());
         Assertions.assertEquals(savedSeasideSetubal, seasideSetubal);

@@ -89,7 +89,6 @@ public class ACPsRestController {
 			int acpId = Integer.parseInt(acpIdOrName);
 			acp = acpsService.getACPById(acpId);
 		} catch (NumberFormatException e) {
-			// argAcp is not an int
 			acp = acpsService.getACPByName(acpIdOrName);
 		}
 
@@ -109,7 +108,7 @@ public class ACPsRestController {
 			return ResponseEntity.badRequest()
 					.body("Invalid request, please include a valid \"status\" field with the new status of the ACP");
 		}
-
+		
 		ACP updatedACP = acpsService.updateACP(acp.getId(), newStatus);
 		if (updatedACP != null)
 			return ResponseEntity.ok(updatedACP);

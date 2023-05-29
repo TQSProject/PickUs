@@ -37,15 +37,12 @@ public class ACPsRepositoryTests {
         entityManager.clear();
 
         continenteGlicinias = new ACP("Continente Glicias", "Aveiro");
-        continenteGlicinias.setId(1);
         entityManager.persistAndFlush(continenteGlicinias); // ensure data is persisted at this point
 
         fnacAveiro = new ACP("Fnac Aveiro", "Aveiro");
-        fnacAveiro.setId(2);
         entityManager.persistAndFlush(fnacAveiro); // ensure data is persisted at this point
 
         seasideSetubal = new ACP("Seaside Setubal", "Setubal");
-        seasideSetubal.setId(3);
         entityManager.persistAndFlush(seasideSetubal); // ensure data is persisted at this point
     }
 

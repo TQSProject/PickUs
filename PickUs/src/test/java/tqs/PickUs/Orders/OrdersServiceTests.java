@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Test scenario: verify the logic of the Service, mocking the response of the
  * datasource
@@ -116,8 +118,14 @@ public class OrdersServiceTests {
 		Assertions.assertEquals(savedAmendoas, amendoas);
 		Assertions.assertEquals(savedAmendoas.getStatus(), amendoas.getStatus());
 		
-		Mockito.verify(ordersRepository, VerificationModeFactory.times(2)).save(Mockito.any());
-		Mockito.verify(ordersRepository, VerificationModeFactory.times(1)).save(leite);
+		HashMap<String, String> hashMap = new HashMap<>();
+		hashMap.put("store", "FNAC");
+		Assertions.assertTrue(ordersService.getOrders(hashMap).containsAll(Arrays.asList(leite, amendoas)));
+		Assertions.assertTrue(ordersService.getAllOrders().containsAll(Arrays.asList(leite, amendoas)));
+		Assertions.assertEquals(ordersService.save(leite), leite);
+		
+		Mockito.verify(ordersRepository, VerificationModeFactory.times(3)).save(Mockito.any());
+		Mockito.verify(ordersRepository, VerificationModeFactory.times(2)).save(leite);
 		Mockito.verify(ordersRepository, VerificationModeFactory.times(1)).save(amendoas);
 	}
 	

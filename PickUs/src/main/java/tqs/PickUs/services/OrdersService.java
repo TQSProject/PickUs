@@ -101,15 +101,13 @@ public class OrdersService {
 			if (json.get("count") != null)
 				count = json.get("count").asInt();
 
-			for (int i = 0; i < count; i++) {
-				Order createdOrder = new Order();
-				createdOrder.setStore(store);
-				createdOrder.setBuyer(buyer);
-				createdOrder.setAcp(acp);
-				createdOrder.setProduct(product);
-				createdOrder.setCount(1);
-				save(createdOrder);
-			}
+			Order createdOrder = new Order();
+			createdOrder.setStore(store);
+			createdOrder.setBuyer(buyer);
+			createdOrder.setAcp(acp);
+			createdOrder.setProduct(product);
+			createdOrder.setCount(count);
+			save(createdOrder);
 
 			return 1;
 		}

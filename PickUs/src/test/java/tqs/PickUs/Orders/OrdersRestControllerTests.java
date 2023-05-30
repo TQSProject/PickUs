@@ -14,6 +14,7 @@ import tqs.PickUs.controllers.ACPsRestController;
 import tqs.PickUs.controllers.OrdersRestController;
 import tqs.PickUs.entities.ACP;
 import tqs.PickUs.entities.Order;
+import tqs.PickUs.entities.OrderStatus;
 import tqs.PickUs.services.ACPsService;
 import tqs.PickUs.services.OrdersService;
 
@@ -44,7 +45,7 @@ public class OrdersRestControllerTests {
 	public void setup() {
 		// Return the argument
 		Mockito.when(ordersService.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
-		Mockito.when(ordersService.createOrders(Mockito.any())).thenReturn(1);
+		Mockito.when(ordersService.createOrders(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
 	}
 	
 	@Test
@@ -56,14 +57,14 @@ public class OrdersRestControllerTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"store\": \"FNAC\"," +
 						" \"buyer\": \"Afonso\"," +
-						" \"acp\": \"Continente Glicinias\"," +
+						" \"acp\": \"Continente\"," +
 						" \"product\": \"Leite\"," +
 						" \"status\": \"WAITING_ADMIN_APPROVAL\"}"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$", is(1)));
-		
-		Mockito.verify(ordersService, VerificationModeFactory.times(1)).save(Mockito.any());
-		Mockito.verify(ordersService, VerificationModeFactory.times(1)).save(Mockito.any());
+				.andExpect(jsonPath("$.status", is(OrderStatus.WAITING_ADMIN_APPROVAL.toString())))
+				.andExpect(jsonPath("$.store", is(order.getStore())))
+				.andExpect(jsonPath("$.buyer", is(order.getBuyer())))
+				.andExpect(jsonPath("$.acp", is(order.getAcp().getName())));
 	}
 	
 	@Test

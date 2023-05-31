@@ -19,8 +19,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 /**
  * Test scenario: verify the logic of the Service, mocking the response of the
  * datasource
@@ -90,8 +88,15 @@ public class OrdersServiceTests {
 		List<Order> ordersAmendoas = ordersService.getOrders(params);
 		Assertions.assertEquals(ordersAmendoas.size(), 1);
 		Assertions.assertTrue(ordersAmendoas.contains(amendoas));
+		Assertions.assertEquals(ordersAmendoas.get(0), amendoas);
+		System.out.println(ordersAmendoas.get(0));
 		
-		
+		Order amendoas = ordersAmendoas.get(0);
+		amendoas.setApprovedDateTime(null);
+		amendoas.setCreatedDateTime(null);
+		amendoas.setDeliveredDateTime(null);
+		amendoas.setEstimatedDeliveryDateTime(null);
+		Assertions.assertEquals(amendoas.hashCode(), 1925186897);
 	}
 	
 	@Test

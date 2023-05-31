@@ -1,5 +1,10 @@
 package tqs.PickUs.entities;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,6 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "ACPs")
@@ -23,15 +30,24 @@ public class ACP {
 	@Column(nullable = false)
 	private String city;
 
+	@Column(name="enrolled_at", nullable = false, updatable = false)
+	private String registed_time;
+
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private ACPStatus status;
 
 	public ACP() {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+		Date date = new Date();
+		registed_time = formatter.format(date);
 		this.status = ACPStatus.WAITING_ADMIN_APPROVAL;
 	}
 
 	public ACP(String name, String city) {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+		Date date = new Date();
+		registed_time = formatter.format(date);
 		this.status = ACPStatus.WAITING_ADMIN_APPROVAL;
 		this.name = name;
 		this.city = city;
@@ -111,5 +127,8 @@ public class ACP {
 		this.city = city;
 	}
 
+	public String getRegisted_time() {
+		return registed_time;
+	}
 
 }

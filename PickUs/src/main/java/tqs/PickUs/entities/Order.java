@@ -39,6 +39,15 @@ public class Order {
 		this.setStatus(OrderStatus.WAITING_ADMIN_APPROVAL);
 		this.createdDateTime = LocalDateTime.now();
 	}
+	
+	public Order(String store, String buyer, String product, ACP acp) {
+		this();
+		this.setStore(store);
+		this.store = store;
+		this.buyer = buyer;
+		this.product = product;
+		this.acp = acp;
+	}
 
 	@Override
 	public String toString() {

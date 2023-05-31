@@ -96,7 +96,8 @@ public class OrdersServiceTests {
 		amendoas.setCreatedDateTime(null);
 		amendoas.setDeliveredDateTime(null);
 		amendoas.setEstimatedDeliveryDateTime(null);
-		Assertions.assertEquals(amendoas.hashCode(), 1925186897);
+		amendoas.setPickedUpDateTime(null);
+		Assertions.assertEquals(1925186897, amendoas.hashCode());
 	}
 	
 	@Test

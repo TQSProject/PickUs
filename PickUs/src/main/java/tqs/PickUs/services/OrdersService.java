@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,12 +74,13 @@ public class OrdersService {
 
 	// Each order has 1 product name and count (how many of that product)
 	// Returns num order created
-	public int createOrders(ObjectNode json) {
+	public Object createOrders(ObjectNode json) {
 		if (json.get("store") == null || json.get("store").asText().isBlank()
 				|| json.get("acp") == null
 				|| json.get("buyer") == null || json.get("buyer").asText().isBlank())
-			return 0;
+			return null;
 
+		
 		String store = json.get("store").asText();
 		String buyer = json.get("buyer").asText();
 		ACP acp = null;
@@ -91,7 +93,7 @@ public class OrdersService {
 		}
 
 		if (acp == null)
-			return 0;
+			return null;
 
 		// If 1 distinct product
 
@@ -107,15 +109,14 @@ public class OrdersService {
 			createdOrder.setAcp(acp);
 			createdOrder.setProduct(product);
 			createdOrder.setCount(count);
-			save(createdOrder);
-
-			return 1;
+			return save(createdOrder);
 		}
 
 		// If many distinct products
 		// "products": [ {name: "Toothpaste X", count: 2}, {name: "Luso Water 1L",count:
 		// 1} ]
 		// Make 1 order for each distinct product
+		List<Order> orders = new ArrayList<>();
 
 		if (json.get("products") != null) {
 			int numDifferentProducts = json.get("products").size();
@@ -124,9 +125,9 @@ public class OrdersService {
 			for (int i = 0; i < numDifferentProducts; i++) {
 				JsonNode thisProduct = json.get("products").get(i);
 				if (thisProduct.get("name") == null || thisProduct.get("name").asText().isBlank())
-					return 0;
+					return null;
 				if (thisProduct.get("count") != null && !thisProduct.get("count").isInt())
-					return 0;
+					return null;
 			}
 
 			// Make 1 order for each distinct product
@@ -142,13 +143,13 @@ public class OrdersService {
 				createdOrder.setAcp(acp);
 				createdOrder.setProduct(productName);
 				createdOrder.setCount(count);
-				ordersRepository.save(createdOrder);
+				orders.add(save(createdOrder));
 			}
 
-			return numDifferentProducts;
+			return orders;
 		}
 
-		return 0;
+		return null;
 	}
 
 	public Order updateOrder(int orderId, OrderStatus newStatus) {

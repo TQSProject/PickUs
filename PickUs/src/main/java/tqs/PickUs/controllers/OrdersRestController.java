@@ -48,10 +48,10 @@ public class OrdersRestController {
 
 	@PostMapping
 	public ResponseEntity<?> createOrders(@RequestBody ObjectNode json) {
-		int totalOrdersCreated = ordersService.createOrders(json);
-		if (totalOrdersCreated == 0)
+		Object ret = ordersService.createOrders(json);
+		if (ret == null)
 			return ResponseEntity.badRequest().body("Invalid order(s) creation request");
-		return ResponseEntity.ok().body(Integer.valueOf(totalOrdersCreated));
+		return ResponseEntity.ok().body(ret);
 	}
 
 	@PostMapping("{orderId}")

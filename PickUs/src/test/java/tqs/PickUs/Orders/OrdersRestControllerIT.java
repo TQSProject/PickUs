@@ -43,7 +43,7 @@ class OrdersRestControllerIT {
 	
 	@Test
 	void postOrderThenGetOrder() {
-		Order order1 = createOrder1();
+		//Order order1 = createOrder1();
 		
 		String endpoint = UriComponentsBuilder.newInstance()
 				.scheme("http")

@@ -22,6 +22,10 @@ public class OrdersService {
 	@Autowired
 	private ACPsRepository acpsRepository;
 
+	public Order save(Order order) {
+		return ordersRepository.save(order);
+	}
+
 	public List<Order> getAllOrders() {
 		return ordersRepository.findAll();
 
@@ -32,7 +36,7 @@ public class OrdersService {
 	}
 
 	public List<Order> getOrders(HashMap<String, String> params) {
-		List<Order> orders = ordersRepository.findAll();
+		List<Order> orders = getAllOrders();
 
 		if (params.containsKey("store") && params.get("store") != null && !params.get("store").isBlank()) {
 			orders = orders.stream()
@@ -97,15 +101,13 @@ public class OrdersService {
 			if (json.get("count") != null)
 				count = json.get("count").asInt();
 
-			for (int i = 0; i < count; i++) {
-				Order createdOrder = new Order();
-				createdOrder.setStore(store);
-				createdOrder.setBuyer(buyer);
-				createdOrder.setAcp(acp);
-				createdOrder.setProduct(product);
-				createdOrder.setCount(1);
-				ordersRepository.save(createdOrder);
-			}
+			Order createdOrder = new Order();
+			createdOrder.setStore(store);
+			createdOrder.setBuyer(buyer);
+			createdOrder.setAcp(acp);
+			createdOrder.setProduct(product);
+			createdOrder.setCount(count);
+			save(createdOrder);
 
 			return 1;
 		}
@@ -150,18 +152,14 @@ public class OrdersService {
 	}
 
 	public Order updateOrder(int orderId, OrderStatus newStatus) {
-		Order order = ordersRepository.findById(orderId);
+		Order order = getOrderById(orderId);
 		if (order == null)
 			return null;
 
 		order.setStatus(newStatus);
-		order = ordersRepository.save(order);
+		order = save(order);
 		return order;
 
-	}
-
-	public Order save(Order order) {
-		return ordersRepository.save(order);
 	}
 
 }

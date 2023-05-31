@@ -26,8 +26,25 @@ PickUs frontend: https://github.com/TQSProject/WebUI
 
 Web eStore: https://github.com/TQSProject/eStore
 
-# How to run:
+# How to run PickUs
 
-Run run.bat with
+Make sure application.properties contains
+
+`spring.datasource.url=jdbc:mysql://mysql-db:3306/PickUs`
+
+then type in CMD:
 
 `run`
+
+# How to run PickUs tests
+
+Make sure application.properties contains
+
+`spring.datasource.url=jdbc:mysql://localhost:3306/PickUs`
+
+Then type in CMD:
+
+```
+make-mysql
+mvn verify
+```

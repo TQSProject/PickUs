@@ -20,6 +20,10 @@ public class ACPsService {
 	@Autowired
 	private OrdersService ordersService;
 
+	public ACP save(ACP acp) {
+		return acpsRepository.save(acp);
+	}
+
 	public List<ACP> getAllACPs() {
 		return acpsRepository.findAll();
 	}
@@ -33,7 +37,7 @@ public class ACPsService {
 	}
 
 	public List<ACP> getACPs(HashMap<String, String> params) {
-		List<ACP> acps = acpsRepository.findAll();
+		List<ACP> acps = getAllACPs();
 
 		if (params.containsKey("name") && params.get("name") != null && !params.get("name").isBlank()) {
 			acps = acps.stream()
@@ -57,7 +61,7 @@ public class ACPsService {
 	}
 
 	public List<Order> getACPOrders(int acpId) {
-		ACP acp = acpsRepository.findById(acpId);
+		ACP acp = getACPById(acpId);
 		if (acp == null)
 			return null;
 		String acpName = acp.getName();
@@ -67,18 +71,13 @@ public class ACPsService {
 		return ordersService.getOrders(params);
 	}
 
-	public ACP save(ACP acp) {
-		return acpsRepository.save(acp);
-	}
-
-	public ACP updateACP(int acpId, ACPStatus newStatus)
-	{
-		ACP acp = acpsRepository.findById(acpId);
+	public ACP updateACP(int acpId, ACPStatus newStatus) {
+		ACP acp = getACPById(acpId);
 		if (acp == null)
 			return null;
 
 		acp.setStatus(newStatus);
-		acp = acpsRepository.save(acp);
+		acp = save(acp);
 		return acp;
 
 	}

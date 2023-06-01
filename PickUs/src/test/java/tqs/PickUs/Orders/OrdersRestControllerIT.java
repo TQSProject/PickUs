@@ -12,6 +12,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.web.util.UriComponentsBuilder;
 import tqs.PickUs.entities.ACP;
 import tqs.PickUs.entities.Order;
+import tqs.PickUs.repositories.ACPsRepository;
 import tqs.PickUs.repositories.OrdersRepository;
 
 import static org.hamcrest.Matchers.is;
@@ -23,6 +24,9 @@ class OrdersRestControllerIT {
 	// will need to use the server port for the invocation url
 	@LocalServerPort
 	int randomServerPort;
+
+	@Autowired
+	private ACPsRepository acpsRepository;
 	
 	@Autowired
 	private OrdersRepository ordersRepository;
@@ -31,6 +35,7 @@ class OrdersRestControllerIT {
 	@AfterAll
 	public void resetDb() {
 		ordersRepository.deleteAll();
+		acpsRepository.deleteAll();
 	}
 	
 	private Order createOrder1() {

@@ -13,6 +13,8 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import tqs.PickUs.entities.ACP;
 import tqs.PickUs.repositories.ACPsRepository;
+import tqs.PickUs.repositories.OrdersRepository;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,9 +37,13 @@ class ACPsRestControllerIT {
 	@Autowired
 	private ACPsRepository acpsRepository;
 
+	@Autowired
+	private OrdersRepository ordersRepository;
+
 	@BeforeEach
 	@AfterAll
 	public void resetDb() {
+		ordersRepository.deleteAll();
 		acpsRepository.deleteAll();
 	}
 

@@ -12,7 +12,7 @@ Separately, we also have a web store where end users can buy products and have t
 
 # Team
 
-Alexandre Gazur (102751) - PickUs backend
+Alexandre Gazur (102751) - PickUs backend, QA
 
 Ricardo Pinto (103078) - PickUs backend, QA
 

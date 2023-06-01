@@ -2,7 +2,7 @@ package tqs.PickUs.entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.concurrent.ThreadLocalRandom;
+import java.security.SecureRandom;
 
 @Entity
 @Table(name = "Orders")
@@ -143,12 +143,11 @@ public class Order {
 		if (status == OrderStatus.DELIVERING) {
 			this.approvedDateTime = LocalDateTime.now();
 
-			int minDelaySeconds = 15;
-			int maxDelaySeconds = 30;
-			// nextInt is normally exclusive of the top value,
-			// so add 1 to make it inclusive
-			int delaySeconds = ThreadLocalRandom.current().nextInt(minDelaySeconds, maxDelaySeconds + 1);
-
+			int minDelaySeconds = 15; // inclusive
+			int maxDelaySeconds = 31; // exclusive
+			// SecureRandom.nextInt(10) generates from 0 inclusive to 10 exclusive
+			SecureRandom random = new SecureRandom();
+			int delaySeconds = random.nextInt(maxDelaySeconds - minDelaySeconds) + minDelaySeconds;
 			this.estimatedDeliveryDateTime = LocalDateTime.now().plusSeconds(delaySeconds);
 		} else if (status == OrderStatus.DELIVERED_AND_WAITING_FOR_PICKUP)
 			this.deliveredDateTime = LocalDateTime.now();

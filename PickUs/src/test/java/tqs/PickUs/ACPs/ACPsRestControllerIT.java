@@ -43,6 +43,7 @@ class ACPsRestControllerIT {
 	@BeforeEach
 	@AfterAll
 	public void resetDb() {
+		System.out.println(ordersRepository.findAll());
 		ordersRepository.deleteAll();
 		acpsRepository.deleteAll();
 	}

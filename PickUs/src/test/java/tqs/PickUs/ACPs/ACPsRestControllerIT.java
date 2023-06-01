@@ -42,15 +42,13 @@ class ACPsRestControllerIT {
 
 	@BeforeEach
 	@AfterAll
-	public void resetDb() throws Exception {
+	public void resetDb() {
 		ordersRepository.deleteAll();
 		acpsRepository.deleteAll();
 	}
 
 	@Test
-	void postAcpThenGetAcp() throws Exception {
-		ACP continenteGlicinias = new ACP("Continente Glicinias", "Aveiro");
-
+	void postAcpThenGetAcp() {
 		String endpoint = UriComponentsBuilder.newInstance()
 				.scheme("http")
 				.host("127.0.0.1")
@@ -60,7 +58,7 @@ class ACPsRestControllerIT {
 				.toUriString();
 
 		RestAssured.given().auth().none().contentType("application/json")
-				.body("{\"name\": \"Continente Glicinias\", \"city\": \"Aveiro\"}")
+				.body("{\"name\": \"ContinenteGlicinias\", \"city\": \"Aveiro\"}")
 				.when().post(endpoint)
 				.then().statusCode(200);
 
@@ -68,14 +66,14 @@ class ACPsRestControllerIT {
 				.scheme("http")
 				.host("127.0.0.1")
 				.port(randomServerPort)
-				.pathSegment("api", "v1", "acps", "Continente Glicinias")
+				.pathSegment("api", "v1", "acps", "ContinenteGlicinias")
 				.build()
 				.toUriString();
 
 		ValidatableResponse response = RestAssured.given().auth().none().contentType("application/json")
 				.get(endpoint)
 				.then().statusCode(200)
-				.body("name", is("Continente Glicinias"))
+				.body("name", is("ContinenteGlicinias"))
 				.body("city", is("Aveiro"));
 
 		int id = response.extract().path("id");
@@ -91,15 +89,12 @@ class ACPsRestControllerIT {
 		RestAssured.given().auth().none().contentType("application/json")
 				.get(endpoint)
 				.then().statusCode(200)
-				.body("name", is("Continente Glicinias"))
+				.body("name", is("ContinenteGlicinias"))
 				.body("city", is("Aveiro"));
 	}
 
 	@Test
-	void postACPsThenGetACPs() throws Exception {
-		ACP continenteGlicinias = new ACP("Continente Glicinias", "Aveiro");
-		ACP seasideSetubal = new ACP("Seaside Setubal", "Setubal");
-
+	void postACPsThenGetACPs() {
 		String endpoint = UriComponentsBuilder.newInstance()
 				.scheme("http")
 				.host("127.0.0.1")
@@ -109,7 +104,7 @@ class ACPsRestControllerIT {
 				.toUriString();
 
 		RestAssured.given().auth().none().contentType("application/json")
-				.body("{\"name\": \"Continente Glicinias\", \"city\": \"Aveiro\"}")
+				.body("{\"name\": \"ContinenteGlicinias\", \"city\": \"Aveiro\"}")
 				.when().post(endpoint)
 				.then().statusCode(200);
 
@@ -120,7 +115,7 @@ class ACPsRestControllerIT {
 
 		List<ACP> acps = acpsRepository.findAll();
 		boolean hasElementWithNameContinenteGlicinias = acps.stream()
-				.anyMatch(acp -> acp.getName().equals("Continente Glicinias"));
+				.anyMatch(acp -> acp.getName().equals("ContinenteGlicinias"));
 		boolean hasElementWithNameSeasideSetubal = acps.stream()
 				.anyMatch(acp -> acp.getName().equals("Seaside Setubal"));
 
@@ -131,7 +126,7 @@ class ACPsRestControllerIT {
 				.get(endpoint)
 				.then().statusCode(200)
 				.body("size()", is(2))
-				.body("[0].name", is("Continente Glicinias"))
+				.body("[0].name", is("ContinenteGlicinias"))
 				.body("[0].city", is("Aveiro"))
 				.body("[1].name", is("Seaside Setubal"))
 				.body("[1].city", is("Setubal"));
@@ -149,7 +144,7 @@ class ACPsRestControllerIT {
 				.toUriString();
 
 		RestAssured.given().auth().none().contentType("application/json")
-				.body("{\"name\": \"Continente Glicinias\", \"city\": \"Aveiro\"}")
+				.body("{\"name\": \"ContinenteGlicinias\", \"city\": \"Aveiro\"}")
 				.when().post(endpoint)
 				.then().statusCode(200);
 
@@ -157,14 +152,14 @@ class ACPsRestControllerIT {
 				.scheme("http")
 				.host("127.0.0.1")
 				.port(randomServerPort)
-				.pathSegment("api", "v1", "acps", "Continente Glicinias")
+				.pathSegment("api", "v1", "acps", "ContinenteGlicinias")
 				.build()
 				.toUriString();
 
 		RestAssured.given().auth().none().contentType("application/json")
 				.get(endpoint)
 				.then().statusCode(200)
-				.body("name", is("Continente Glicinias"))
+				.body("name", is("ContinenteGlicinias"))
 				.body("city", is("Aveiro"))
 				.body("status", is("WAITING_ADMIN_APPROVAL"));
 
@@ -176,13 +171,13 @@ class ACPsRestControllerIT {
 		RestAssured.given().auth().none().contentType("application/json")
 				.get(endpoint)
 				.then().statusCode(200)
-				.body("name", is("Continente Glicinias"))
+				.body("name", is("ContinenteGlicinias"))
 				.body("city", is("Aveiro"))
 				.body("status", is("REFUSED"));
 	}
 
 	@Test
-	public void testAcpOrders() throws Exception {
+	public void testAcpOrders() {
 		postACPs();
 
 		// Assert 0 orders for certain ACP
@@ -190,7 +185,7 @@ class ACPsRestControllerIT {
 				.scheme("http")
 				.host("127.0.0.1")
 				.port(randomServerPort)
-				.pathSegment("api", "v1", "acps", "Continente Glicinias", "orders")
+				.pathSegment("api", "v1", "acps", "ContinenteGlicinias", "orders")
 				.build()
 				.toUriString();
 		RestAssured.given().auth().none().contentType("application/json")
@@ -198,15 +193,15 @@ class ACPsRestControllerIT {
 				.then().statusCode(200)
 				.body("size()", is(0));
 
-		postOrders("Continente Glicinias");
-		postOrders("Fnac Aveiro");
+		postOrders("ContinenteGlicinias");
+		postOrders("FnacAveiro");
 
 		// Assert orders for certain ACP
 		RestAssured.given().auth().none().contentType("application/json")
 				.get(endpoint)
 				.then().statusCode(200)
 				.body("size()", is(4))
-				.body("acp.name", everyItem(is("Continente Glicinias")))
+				.body("acp.name", everyItem(is("ContinenteGlicinias")))
 				.body("[2].buyer", is("Ricardo"))
 				.body("[2].product", is("Samsung Galaxy S10"))
 				.body("[2].count", is(2));
@@ -224,12 +219,12 @@ class ACPsRestControllerIT {
 				.toUriString();
 
 		RestAssured.given().auth().none().contentType("application/json")
-				.body("{\"name\": \"Continente Glicinias\", \"city\": \"Aveiro\"}")
+				.body("{\"name\": \"ContinenteGlicinias\", \"city\": \"Aveiro\"}")
 				.when().post(endpoint)
 				.then().statusCode(200);
 
 		RestAssured.given().auth().none().contentType("application/json")
-				.body("{\"name\": \"Fnac Aveiro\", \"city\": \"Aveiro\"}")
+				.body("{\"name\": \"FnacAveiro\", \"city\": \"Aveiro\"}")
 				.when().post(endpoint)
 				.then().statusCode(200);
 	}
@@ -260,7 +255,7 @@ class ACPsRestControllerIT {
 		products.add(product2);
 		products.add(product3);
 		data.put("products", products);
-		data.put("acp", 1);
+		data.put("acp", acp);
 
 		RestAssured.given()
 				.contentType(ContentType.JSON)
@@ -274,7 +269,7 @@ class ACPsRestControllerIT {
 		data.put("store", "eStore");
 		data.put("buyer", "Daniel");
 		data.put("product", "Red apple");
-		data.put("acp", 1);
+		data.put("acp", acp);
 
 		RestAssured.given()
 				.contentType(ContentType.JSON)

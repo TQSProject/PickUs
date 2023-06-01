@@ -53,9 +53,11 @@ public class ACP {
 		this.city = city;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "ACP [id=" + id + ", name=" + name + ", city=" + city + ", status=" + status + "]";
+		return "ACP [id=" + id + ", name=" + name + ", city=" + city + ", registed_time=" + registed_time + ", status="
+				+ status + "]";
 	}
 
 	@Override

@@ -8,13 +8,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.web.util.UriComponentsBuilder;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import tqs.PickUs.entities.ACP;
 import tqs.PickUs.repositories.ACPsRepository;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -167,6 +173,101 @@ class ACPsRestControllerIT {
 				.body("name", is("Continente Glicinias"))
 				.body("city", is("Aveiro"))
 				.body("status", is("REFUSED"));
+	}
+
+	@Test
+	public void testAcpOrders() {
+		postACPs();
+
+		// Assert 0 orders for certain ACP
+		String endpoint = UriComponentsBuilder.newInstance()
+				.scheme("http")
+				.host("127.0.0.1")
+				.port(randomServerPort)
+				.pathSegment("api", "v1", "acps", "Continente Glicinias", "orders")
+				.build()
+				.toUriString();
+		RestAssured.given().auth().none().contentType("application/json")
+				.get(endpoint)
+				.then().statusCode(200)
+				.body("size()", is(0));
+
+		postOrders("Continente Glicinias");
+		postOrders("Fnac Aveiro");
+
+		// Assert orders for certain ACP
+		RestAssured.given().auth().none().contentType("application/json")
+				.get(endpoint)
+				.then().statusCode(200)
+				.body("size()", is(4))
+				.body("acp.name", everyItem(is("Continente Glicinias")))
+				.body("[2].buyer", is("Ricardo"))
+				.body("[2].product", is("Samsung Galaxy S10"))
+				.body("[2].count", is(2));
+
+	}
+
+	private void postACPs() {
+		// Post ACPs
+		String endpoint = UriComponentsBuilder.newInstance()
+				.scheme("http")
+				.host("127.0.0.1")
+				.port(randomServerPort)
+				.pathSegment("api", "v1", "acps")
+				.build()
+				.toUriString();
+
+		RestAssured.given().auth().none().contentType("application/json")
+				.body("{\"name\": \"Continente Glicinias\", \"city\": \"Aveiro\"}")
+				.when().post(endpoint)
+				.then().statusCode(200);
+
+		RestAssured.given().auth().none().contentType("application/json")
+				.body("{\"name\": \"Fnac Aveiro\", \"city\": \"Aveiro\"}")
+				.when().post(endpoint)
+				.then().statusCode(200);
+	}
+
+	private void postOrders(String acp) {
+		TreeMap<String, Object> data = new TreeMap<String, Object>();
+		data.put("store", "eStore");
+		data.put("buyer", "Ricardo");
+		ArrayList<HashMap<String, Object>> products = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> product1 = new HashMap<String, Object>();
+		HashMap<String, Object> product2 = new HashMap<String, Object>();
+		HashMap<String, Object> product3 = new HashMap<String, Object>();
+		product1.put("name", "Toothpaste Nax Pro");
+		product1.put("count", 3);
+		product2.put("name", "PS4");
+		product3.put("name", "Samsung Galaxy S10");
+		product3.put("count", 2);
+		products.add(product1);
+		products.add(product2);
+		products.add(product3);
+		data.put("products", products);
+		data.put("acp", acp);
+
+		RestAssured.given()
+				.contentType(ContentType.JSON)
+				.body(data)
+				.when()
+				.post("/api/v1/orders")
+				.then()
+				.statusCode(200); // Assuming a successful response has HTTP status code 200
+
+		data = new TreeMap<String, Object>();
+		data.put("store", "eStore");
+		data.put("buyer", "Daniel");
+		data.put("product", "Red apple");
+		data.put("acp", acp);
+
+		RestAssured.given()
+				.contentType(ContentType.JSON)
+				.body(data)
+				.when()
+				.post("/api/v1/orders")
+				.then()
+				.statusCode(200); // Assuming a successful response has HTTP status code 200
 	}
 
 }

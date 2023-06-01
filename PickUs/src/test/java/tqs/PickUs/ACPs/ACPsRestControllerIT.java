@@ -235,18 +235,6 @@ class ACPsRestControllerIT {
 	}
 
 	private void postOrders(String acp) {
-		String endpoint1 = UriComponentsBuilder.newInstance()
-				.scheme("http")
-				.host("127.0.0.1")
-				.port(randomServerPort)
-				.pathSegment("api", "v1", "acps", acp)
-				.build()
-				.toUriString();
-		RestAssured.given().auth().none().contentType("application/json")
-				.get(endpoint1)
-				.then().statusCode(200)
-				.body("name", is(acp))
-				.body("city", is("Avei"));
 
 		String endpoint = UriComponentsBuilder.newInstance()
 				.scheme("http")
@@ -272,7 +260,7 @@ class ACPsRestControllerIT {
 		products.add(product2);
 		products.add(product3);
 		data.put("products", products);
-		data.put("acp", acp);
+		data.put("acp", 1);
 
 		RestAssured.given()
 				.contentType(ContentType.JSON)
@@ -286,7 +274,7 @@ class ACPsRestControllerIT {
 		data.put("store", "eStore");
 		data.put("buyer", "Daniel");
 		data.put("product", "Red apple");
-		data.put("acp", acp);
+		data.put("acp", 1);
 
 		RestAssured.given()
 				.contentType(ContentType.JSON)

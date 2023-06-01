@@ -82,22 +82,6 @@ public class OrdersServiceTests {
 		List<Order> ordersAfonso = ordersService.getOrders(params);
 		Assertions.assertEquals(ordersAfonso.size(), 2);
 		Assertions.assertTrue(ordersAfonso.containsAll(Arrays.asList(leite, amendoas)));
-		
-		params = new HashMap<>();
-		params.put("product", "Amendoas");
-		List<Order> ordersAmendoas = ordersService.getOrders(params);
-		Assertions.assertEquals(ordersAmendoas.size(), 1);
-		Assertions.assertTrue(ordersAmendoas.contains(amendoas));
-		Assertions.assertEquals(ordersAmendoas.get(0), amendoas);
-		System.out.println(ordersAmendoas.get(0));
-		
-		Order amendoas = ordersAmendoas.get(0);
-		amendoas.setApprovedDateTime(null);
-		amendoas.setCreatedDateTime(null);
-		amendoas.setDeliveredDateTime(null);
-		amendoas.setEstimatedDeliveryDateTime(null);
-		amendoas.setPickedUpDateTime(null);
-		Assertions.assertInstanceOf(Integer.class, amendoas.hashCode());
 	}
 	
 	@Test

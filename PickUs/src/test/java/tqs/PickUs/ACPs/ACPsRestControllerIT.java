@@ -26,8 +26,6 @@ import java.util.TreeMap;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.lang.Thread;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
 class ACPsRestControllerIT {
@@ -45,9 +43,7 @@ class ACPsRestControllerIT {
 	@BeforeEach
 	@AfterAll
 	public void resetDb() throws Exception {
-		Thread.sleep(2000);
 		ordersRepository.deleteAll();
-		Thread.sleep(2000);
 		acpsRepository.deleteAll();
 	}
 
@@ -188,7 +184,6 @@ class ACPsRestControllerIT {
 	@Test
 	public void testAcpOrders() throws Exception {
 		postACPs();
-		Thread.sleep(2000);
 
 		// Assert 0 orders for certain ACP
 		String endpoint = UriComponentsBuilder.newInstance()
@@ -240,6 +235,19 @@ class ACPsRestControllerIT {
 	}
 
 	private void postOrders(String acp) {
+		String endpoint1 = UriComponentsBuilder.newInstance()
+				.scheme("http")
+				.host("127.0.0.1")
+				.port(randomServerPort)
+				.pathSegment("api", "v1", "acps", acp)
+				.build()
+				.toUriString();
+		RestAssured.given().auth().none().contentType("application/json")
+				.get(endpoint1)
+				.then().statusCode(200)
+				.body("name", is(acp))
+				.body("city", is("Aveiro"));
+
 		String endpoint = UriComponentsBuilder.newInstance()
 				.scheme("http")
 				.host("127.0.0.1")

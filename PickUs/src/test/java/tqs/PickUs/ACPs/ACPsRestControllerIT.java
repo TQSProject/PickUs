@@ -246,7 +246,7 @@ class ACPsRestControllerIT {
 				.get(endpoint1)
 				.then().statusCode(200)
 				.body("name", is(acp))
-				.body("city", is("Aveiro"));
+				.body("city", is("Avei"));
 
 		String endpoint = UriComponentsBuilder.newInstance()
 				.scheme("http")

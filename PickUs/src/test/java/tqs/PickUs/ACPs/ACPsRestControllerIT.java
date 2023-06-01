@@ -9,7 +9,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.web.util.UriComponentsBuilder;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import tqs.PickUs.entities.ACP;
 import tqs.PickUs.repositories.ACPsRepository;
@@ -25,7 +24,6 @@ import java.util.TreeMap;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -42,17 +40,14 @@ class ACPsRestControllerIT {
 	private OrdersRepository ordersRepository;
 
 	@AfterAll
+	@BeforeEach
 	public void resetDb() {
 		ordersRepository.deleteAll();
 		acpsRepository.deleteAll();
 	}
 
 	@Test
-	@Order(1)
 	void postAcpThenGetAcp() {
-		ordersRepository.deleteAll();
-		acpsRepository.deleteAll();
-
 		String endpoint = UriComponentsBuilder.newInstance()
 				.scheme("http")
 				.host("127.0.0.1")
@@ -98,11 +93,7 @@ class ACPsRestControllerIT {
 	}
 
 	@Test
-	@Order(2)
 	void postACPsThenGetACPs() {
-		ordersRepository.deleteAll();
-		acpsRepository.deleteAll();
-
 		String endpoint = UriComponentsBuilder.newInstance()
 				.scheme("http")
 				.host("127.0.0.1")
@@ -142,11 +133,7 @@ class ACPsRestControllerIT {
 	}
 
 	@Test
-	@Order(3)
 	void testUpdateAcpStatus() {
-		ordersRepository.deleteAll();
-		acpsRepository.deleteAll();
-
 		String endpoint = UriComponentsBuilder.newInstance()
 				.scheme("http")
 				.host("127.0.0.1")
@@ -189,11 +176,7 @@ class ACPsRestControllerIT {
 	}
 
 	@Test
-	@Order(4)
 	public void testAcpOrders() {
-		ordersRepository.deleteAll();
-		acpsRepository.deleteAll();
-
 		postACPs();
 
 		// Assert 0 orders for certain ACP

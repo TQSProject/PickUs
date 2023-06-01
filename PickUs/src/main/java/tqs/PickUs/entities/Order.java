@@ -24,7 +24,7 @@ public class Order {
 	private int count;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(nullable = false)
+	@JoinColumn()
 	private ACP acp;
 
 	@Enumerated(EnumType.STRING)

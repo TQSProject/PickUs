@@ -229,6 +229,14 @@ class ACPsRestControllerIT {
 	}
 
 	private void postOrders(String acp) {
+		String endpoint = UriComponentsBuilder.newInstance()
+				.scheme("http")
+				.host("127.0.0.1")
+				.port(randomServerPort)
+				.pathSegment("api", "v1", "orders")
+				.build()
+				.toUriString();
+
 		TreeMap<String, Object> data = new TreeMap<String, Object>();
 		data.put("store", "eStore");
 		data.put("buyer", "Ricardo");
@@ -251,7 +259,7 @@ class ACPsRestControllerIT {
 				.contentType(ContentType.JSON)
 				.body(data)
 				.when()
-				.post("/api/v1/orders")
+				.post(endpoint)
 				.then()
 				.statusCode(200); // Assuming a successful response has HTTP status code 200
 
@@ -265,7 +273,7 @@ class ACPsRestControllerIT {
 				.contentType(ContentType.JSON)
 				.body(data)
 				.when()
-				.post("/api/v1/orders")
+				.post(endpoint)
 				.then()
 				.statusCode(200); // Assuming a successful response has HTTP status code 200
 	}

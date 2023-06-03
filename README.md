@@ -26,6 +26,10 @@ PickUs frontend: https://github.com/TQSProject/WebUI
 
 Web eStore: https://github.com/TQSProject/eStore
 
+# API Documentation
+
+https://documenter.getpostman.com/view/13973483/2s93m7X25U
+
 # How to run PickUs
 
 Make sure application.properties contains

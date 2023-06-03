@@ -167,7 +167,7 @@ public class ACPsRestControllerTests {
 		mvc.perform(
 			post("/api/v1/acps/1")
 			.contentType(MediaType.APPLICATION_JSON)
-			.content("{\"status\": \"REFUSED\"}"))
+			.content("{\"staaus\": \"REFUSED\"}"))
 			.andExpect(status().isBadRequest())
 			.andExpect(content().string("Invalid request, please include a valid \"status\" field with the new status of the ACP"));
 	}

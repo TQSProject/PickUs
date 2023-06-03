@@ -125,6 +125,8 @@
                      <propertyName>surefire.jacoco.args</propertyName>
                      <excludes>
                         <exclude>**/entities/*</exclude>
+                        <exclude>**/ACP.java</exclude>
+                        <exclude>**/Order.java</exclude>
                      </excludes>
                   </configuration>
                </execution>

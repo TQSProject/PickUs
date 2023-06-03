@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.hamcrest.Matchers.hasSize;
 
 /* 
@@ -163,6 +164,12 @@ public class ACPsRestControllerTests {
 
 		Mockito.verify(acpsService, VerificationModeFactory.times(2)).updateACP(Mockito.anyInt(), Mockito.any());
 
+		mvc.perform(
+			post("/api/v1/acps/1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content("{\"status\": \"REFUSED\"}"))
+			.andExpect(status().isBadRequest())
+			.andExpect(content().string("Invalid request, please include a valid \"status\" field with the new status of the ACP"));
 	}
 
 }

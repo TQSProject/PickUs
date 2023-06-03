@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @WebMvcTest(OrdersRestController.class)
 public class OrdersRestControllerTests {
@@ -159,6 +160,13 @@ public class OrdersRestControllerTests {
 				.andExpect(jsonPath("$.status", is(OrderStatus.DELIVERING.toString())));
 		
 		Mockito.verify(ordersService, VerificationModeFactory.times(2)).getOrderById(Mockito.anyInt());
+
+		mvc.perform(
+				post("/api/v1/orders/1")
+				.content("{\"staaus\": \"DELIVERING\"}")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest())
+				.andExpect(content().string("Invalid request, please include a valid \"status\" field with the new status of the order"));
 	}
 	
 	public static String asJsonString(Object obj) {

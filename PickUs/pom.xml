@@ -20,6 +20,11 @@
 	  <sonar.coverage.jacoco.xmlReportPaths>
 			./target/site/jacoco-merged-test-coverage-report/jacoco.xml
 	  </sonar.coverage.jacoco.xmlReportPaths>
+     <sonar.coverage.exclusions>
+        **/entities/*,
+        **/ACP.java,
+        **/Order.java
+    </sonar.coverage.exclusions>
    </properties>
    <dependencies>
       <dependency>

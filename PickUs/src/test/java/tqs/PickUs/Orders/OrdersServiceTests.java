@@ -82,6 +82,18 @@ public class OrdersServiceTests {
 		List<Order> ordersAfonso = ordersService.getOrders(params);
 		Assertions.assertEquals(ordersAfonso.size(), 2);
 		Assertions.assertTrue(ordersAfonso.containsAll(Arrays.asList(leite, amendoas)));
+
+		params = new HashMap<>();
+		params.put("product", "Leite");
+		List<Order> ordersMilk = ordersService.getOrders(params);
+		Assertions.assertEquals(ordersMilk.size(), 1);
+		Assertions.assertTrue(ordersMilk.containsAll(Arrays.asList(leite)));
+
+		params = new HashMap<>();
+		params.put("status", "WAITING_ADMIN_APPROVAL");
+		List<Order> ordersReady = ordersService.getOrders(params);
+		Assertions.assertEquals(ordersReady.size(), 2);
+		Assertions.assertTrue(ordersReady.containsAll(Arrays.asList(leite, amendoas)));
 	}
 	
 	@Test

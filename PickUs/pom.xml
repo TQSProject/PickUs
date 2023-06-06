@@ -24,6 +24,7 @@
         **/entities/*,
         **/ACP.java,
         **/Order.java
+        **/PickUsApplication.java
     </sonar.coverage.exclusions>
    </properties>
    <dependencies>

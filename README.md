@@ -12,13 +12,13 @@ Separately, we also have a web store where end users can buy products and have t
 
 # Team
 
-Alexandre Gazur (102751) - PickUs backend, QA
+Alexandre Gazur (102751) - Team Leader, PickUs backend, QA
 
-Ricardo Pinto (103078) - PickUs backend, QA
+Ricardo Pinto (103078) - QA Engineer, PickUs backend, QA
 
-Emanuel (102565) - PickUs frontend (admin dashboard and ACP dashboard)
+Emanuel (102565) - DevOps Master, PickUs frontend (admin dashboard and ACP dashboard)
 
-Daniel Ferreira (102885) - Web eStore
+Daniel Ferreira (102885) - Product Owner, Web eStore
 
 # Related repos
 
